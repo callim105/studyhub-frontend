@@ -18,17 +18,36 @@ export default class HomeScreen extends React.Component{
     render(){
         return (
             <View style={styles.container}>
-                <MapView style={{flex: 1}} />
+                <MapView 
+                style={{flex: 1}}
+                initialRegion={initialCoords}
+                >
+
+                </MapView>
                 <ScrollView>
-                    <MonoText>Hellooooooo</MonoText>
+                    <MonoText>Hubs near you...</MonoText>
                 </ScrollView>
             </View>
           );
     }
 }
 
+const initialCoords = {
+    latitude: 41.8781,
+    longitude: -87.6298,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  }
+
 HomeScreen.navigationOptions = {
-  title: 'STUDYHUB'
+  title: 'STUDYHUB',
+  headerStyle: {
+      backgroundColor: '#1675AA',
+  },
+  headerTintColor: '#fff',
+  headerTitleStyle:{
+      fontWeight: 'bold',
+  },
   
 };
 
