@@ -6,7 +6,7 @@ export default class HubScroll extends Component {
     render() {
         return (
             <ScrollView>
-                    <Text>Hubs near you...</Text>
+                    <Text>Hubs Near You...</Text>
             </ScrollView>
         )
     }
