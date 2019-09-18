@@ -11,10 +11,19 @@ import {
 } from 'react-native';
 
 import MapView from 'react-native-maps';
-
+import { Marker } from 'react-native-maps'
 import { MonoText } from '../components/StyledText';
+import HubScroll from '../components/HubScroll';
+
+
 
 export default class HomeScreen extends React.Component{
+    constructor(props){
+        super(props)
+
+    }
+
+
     render(){
         return (
             <View style={styles.container}>
@@ -24,9 +33,7 @@ export default class HomeScreen extends React.Component{
                 >
 
                 </MapView>
-                <ScrollView>
-                    <MonoText>Hubs near you...</MonoText>
-                </ScrollView>
+                <HubScroll />
             </View>
           );
     }
