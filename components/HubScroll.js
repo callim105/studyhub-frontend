@@ -11,21 +11,21 @@ const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
 export default class HubScroll extends Component {
     constructor(props){
         super(props)
-        this.state = { isLoading: true, hubs: [] }
+        
     }
 
-    componentDidMount(){
-        console.log(uri)
-        return fetch(uri)
-        .then(res => res.json())
-        .then(data => {
-            this.setState({
-                isLoading: false,
-                hubs: data
-            })
-        })
-        .catch(err => console.error(err))
-    }
+    // componentDidMount(){
+    //     console.log(uri)
+    //     return fetch(uri)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         this.setState({
+    //             isLoading: false,
+    //             hubs: data
+    //         })
+    //     })
+    //     .catch(err => console.error(err))
+    // }
 
     renderStars = (rating) => {
         let numRating = Number(rating)
@@ -39,7 +39,7 @@ export default class HubScroll extends Component {
 
     render() {
 
-        if(this.state.isLoading){
+        if(this.props.isLoading){
             return(
                 <View style={{flex: 1, padding: 20}}>
                     <ActivityIndicator />
@@ -50,7 +50,7 @@ export default class HubScroll extends Component {
         return (
             <View style={{flex: 1}}>
               <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
-                    {this.state.hubs.map(({ name, rating, id }) => (
+                    {this.props.hubs.map(({ name, rating, id }) => (
                         <Card key={id}>
                             <Text style={{ marginBottom: 10 }}>
                                 {name}
