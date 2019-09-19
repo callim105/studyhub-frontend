@@ -12,10 +12,6 @@ import LoginScreen from './screens/LoginScreen';
 export default function App(props) {
     const [isLoadingComplete, setLoadingComplete] = useState(false);
 
-
-
-
-
     if (!isLoadingComplete && !props.skipLoadingScreen) {
         return (
             <AppLoading
@@ -30,8 +26,6 @@ export default function App(props) {
                  {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
                  <AppNavigator />
             </View>
-            
-      
     );
     }
 }

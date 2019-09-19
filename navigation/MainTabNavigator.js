@@ -6,7 +6,11 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import AddHubScreen from '../screens/AddHubScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import LoginScreen from '../screens/LoginScreen';
+import MainScreenNavigator from './MainScreenNavigator';
+import HubShowScreen from '../screens/HubShowScreen';
+
+
+
 
 //Check for jwt
 const _retrieveData = async (key) => {
@@ -37,6 +41,7 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
+    HubShow: HubShowScreen
   },
   config
 );
