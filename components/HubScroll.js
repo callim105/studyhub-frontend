@@ -8,6 +8,7 @@ const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
 // const uri = 'http://10.198.66.194:3000/hubs'
 
 
+
 export default class HubScroll extends Component {
     constructor(props) {
         super(props)
@@ -41,6 +42,12 @@ export default class HubScroll extends Component {
                             </Text>
                             <Button
                                 title="View More"
+                                
+                                onPress={()=>{this.props.navigation.navigate('HubShow',{
+                                    rating: rating,
+                                    name: name,
+                                    id: id
+                                })}}
                             />
                         </Card>
                     ))

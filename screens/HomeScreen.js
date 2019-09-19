@@ -97,7 +97,12 @@ export default class HomeScreen extends React.Component{
 
                     }
                 </MapView>
-                <HubScroll isLoading={this.state.isLoading} hubs={this.state.hubs} renderStars={this.renderStars}/>
+                <HubScroll 
+                isLoading={this.state.isLoading} 
+                hubs={this.state.hubs} 
+                renderStars={this.renderStars}
+                navigation={this.props.navigation}
+                />
             </View>
           );
     }
