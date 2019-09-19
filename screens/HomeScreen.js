@@ -9,12 +9,15 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
+  AsyncStorage,
 
 } from 'react-native';
 
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { MonoText } from '../components/StyledText';
 import HubScroll from '../components/HubScroll';
+
+//This is so you have a constant address to fetch, even on remote/if ip changes
 import Constants from "expo-constants";
 const { manifest } = Constants;
 const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
@@ -47,6 +50,14 @@ export default class HomeScreen extends React.Component{
         .catch(err => console.error(err))
     }
 
+    renderStars = (rating) => {
+        let numRating = Number(rating)
+        let stars = []
+        for(let i = 0; i < numRating; i++ ){
+            stars.push('⭐')
+        }
+        return (stars.join(''))
+    }
     //Render with loading screen for fetch
     render(){
         if(this.state.isLoading){
@@ -56,7 +67,7 @@ export default class HomeScreen extends React.Component{
                 </View>
             )
         }
-        console.log(this.state.hubs)
+        
         return (
             <View style={styles.container}>
                 <MapView 
@@ -70,13 +81,23 @@ export default class HomeScreen extends React.Component{
                             description={marker.description}
                             key={marker.id}
                         >
-
+                            <Callout
+                            onPress={() => console.log("fix?")}
+                            >
+                                <Text>{marker.name}</Text>
+                                <Text>{marker.description}</Text>
+                                <Text>{this.renderStars(marker.rating)}</Text>
+                                <Image 
+                                style={{width: 50, height: 50}}
+                                source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}
+                                />
+                            </Callout>
                         </Marker>
                     ))
 
                     }
                 </MapView>
-                <HubScroll isLoading={this.state.isLoading} hubs={this.state.hubs}/>
+                <HubScroll isLoading={this.state.isLoading} hubs={this.state.hubs} renderStars={this.renderStars}/>
             </View>
           );
     }
