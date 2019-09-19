@@ -8,18 +8,15 @@ import LoginScreen from '../screens/LoginScreen'
 export default class AddHubScreen extends Component{
     constructor(){
         super()
+        this.retrieveData('jwt');
     }
 
     retrieveData = async (key) => {
-        try {
-          const value = await AsyncStorage.getItem(key);
-          if (value !== null) {
-            // We have data!!
-            return value;
-          }
-        } catch (error) {
-          // Error retrieving data
-        }
+        const jwtToken = await AsyncStorage.getItem(key);
+
+        // await AsyncStorage.removeItem('jwt')
+        alert(jwtToken)
+        this.props.navigation.navigate(jwtToken === null ? 'Login' : "AddHub")
     };
 
     testFunc = () => {

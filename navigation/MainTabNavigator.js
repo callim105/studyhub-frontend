@@ -59,7 +59,7 @@ HomeStack.path = '';
 
 const AddHubStack = createStackNavigator(
   {
-    AddHub: _retrieveData('jwt') === null ? LoginScreen : AddHubScreen ,
+    AddHub: AddHubScreen
   },
   config
 );
