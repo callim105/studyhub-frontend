@@ -14,28 +14,6 @@ export default class HubScroll extends Component {
 
     }
 
-    // componentDidMount(){
-    //     console.log(uri)
-    //     return fetch(uri)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         this.setState({
-    //             isLoading: false,
-    //             hubs: data
-    //         })
-    //     })
-    //     .catch(err => console.error(err))
-    // }
-
-    // renderStars = (rating) => {
-    //     let numRating = Number(rating)
-    //     let stars = []
-    //     for(let i = 0; i < numRating; i++ ){
-    //         stars.push('⭐')
-    //     }
-    //     return (stars.join(''))
-    // }
-
 
     render() {
 
