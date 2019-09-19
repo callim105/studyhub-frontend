@@ -32,7 +32,7 @@ export default class HubScroll extends Component {
                     <Text style={styles.hubScrollTitle}>Hubs near you...</Text>
                 </View>
                 <ScrollView contentContainerStyle={{ paddingVertical: 5 }}>
-                    {this.props.hubs.map(({ name, rating, id }) => (
+                    {this.props.hubs.map(({ name, rating, id ,reviews}) => (
                         <Card key={id}>
                             <Text style={{ marginBottom: 10 }}>
                                 {name}
@@ -46,7 +46,9 @@ export default class HubScroll extends Component {
                                 onPress={()=>{this.props.navigation.navigate('HubShow',{
                                     rating: rating,
                                     name: name,
-                                    id: id
+                                    id: id,
+                                    reviewsLength: reviews.length,
+                                    reviews: reviews
                                 })}}
                             />
                         </Card>
