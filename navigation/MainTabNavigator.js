@@ -6,7 +6,6 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import AddHubScreen from '../screens/AddHubScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import MainScreenNavigator from './MainScreenNavigator';
 import HubShowScreen from '../screens/HubShowScreen';
 
 

@@ -4,7 +4,6 @@ import MainTabNavigator from './MainTabNavigator';
 import HomeScreen from '../screens/HomeScreen'
 import AuthLoadingScreen from '../screens/AuthLoading';
 import AuthStack from '../navigation/AuthNavigator'
-import MainScreenStack from '../navigation/MainScreenNavigator'
 
 
 
