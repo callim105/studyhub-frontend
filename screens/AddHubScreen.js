@@ -1,19 +1,63 @@
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, ScrollView, StyleSheet, AsyncStorage } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import MapView from 'react-native-maps'
-export default function AddHubScreen() {
-    return (
-        <View style={styles.container}>
-            <MapView
-                style={{ flex: 1 }}
-                initialRegion={initialCoords}
-            >
+import LoginScreen from '../screens/LoginScreen'
 
-            </MapView>
 
-        </View>
-    );
+export default class AddHubScreen extends Component{
+    constructor(){
+        super()
+    }
+
+    retrieveData = async (key) => {
+        try {
+          const value = await AsyncStorage.getItem(key);
+          if (value !== null) {
+            // We have data!!
+            return value;
+          }
+        } catch (error) {
+          // Error retrieving data
+        }
+    };
+
+    testFunc = () => {
+        return <View>test</View>
+    }
+
+    checkLogin = () => {
+        if(this.retrieveData()){
+            return(
+                <View style={styles.container}>
+                    <MapView
+                        style={{ flex: 1 }}
+                        initialRegion={initialCoords}
+                    >
+
+                    </MapView>
+
+                </View> 
+            )
+        } else {
+            return <LoginScreen />
+        }
+    }
+
+    render(){
+            return(
+                <View style={styles.container}>
+                    <MapView
+                        style={{ flex: 1 }}
+                        initialRegion={initialCoords}
+                    >
+
+                    </MapView>
+
+                </View> 
+            )
+        }
+    
 }
 
 const initialCoords = {

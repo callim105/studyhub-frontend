@@ -9,12 +9,15 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
+  AsyncStorage,
 
 } from 'react-native';
 
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { MonoText } from '../components/StyledText';
 import HubScroll from '../components/HubScroll';
+
+//This is so you have a constant address to fetch, even on remote/if ip changes
 import Constants from "expo-constants";
 const { manifest } = Constants;
 const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
@@ -64,7 +67,7 @@ export default class HomeScreen extends React.Component{
                 </View>
             )
         }
-        console.log(this.state.hubs)
+        
         return (
             <View style={styles.container}>
                 <MapView 

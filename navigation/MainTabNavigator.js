@@ -1,11 +1,33 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import AddHubScreen from '../screens/AddHubScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import LoginScreen from '../screens/LoginScreen';
+
+//Check for jwt
+const _retrieveData = async (key) => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        // We have data!!
+        return value;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+};
+
+const loggedIn = () => {
+    console.log(_retrieveData('jwt'))
+    debugger;
+    return _retrieveData('jwt')
+};
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -37,7 +59,7 @@ HomeStack.path = '';
 
 const AddHubStack = createStackNavigator(
   {
-    AddHub: AddHubScreen,
+    AddHub: _retrieveData('jwt') === null ? LoginScreen : AddHubScreen ,
   },
   config
 );
@@ -51,26 +73,26 @@ AddHubStack.navigationOptions = {
 
 AddHubStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const ProfileStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Profile: ProfileScreen,
   },
   config
 );
 
-SettingsStack.navigationOptions = {
+ProfileStack.navigationOptions = {
   tabBarLabel: 'Profile',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'} />
   ),
 };
 
-SettingsStack.path = '';
+ProfileStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   AddHubStack,
-  SettingsStack,
+  ProfileStack,
 });
 
 tabNavigator.path = '';
