@@ -1,14 +1,62 @@
 import React, { Component } from 'react'
-import { Text, Image, } from 'react-native'
+import { Text, Image, Alert, } from 'react-native'
 import MapView, { Marker, Callout } from 'react-native-maps';
+
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 
 export default class Map extends Component {
     constructor(props){
         super(props)
+        this.state = {
+            location: {},
+            isFetching: false,
+        }
+    }
+
+    verifyPermissions = async () => {
+        const result = await Permissions.askAsync(Permissions.LOCATION);
+        if(result.status !== 'granted'){
+            Alert.alert(
+                'Insufficient permissions!',
+                'You need to grant location permissions to use this app.',
+                [{text: 'okay'}]
+            );
+            return false;
+        }
+        return true;
+    };
+
+    getLocation = async () => {
+        const hasPermission = await this.verifyPermissions()
+        if(!hasPermission){
+            return;
+        }
+
+        try{
+            this.setState({isFetching: true})
+            const location = await Location.getCurrentPositionAsync({timeout: 5000});
+            console.log(location);
+            this.setState({location:{
+                lat: location.coords.latitude,
+                lng: location.coords.longitude
+            }});
+        } catch(err){
+            Alert.alert('Could not fetch location',)
+        }
+        this.setState({isFetching: false})
+    }
+
+
+
+
+    componentDidMount(){
+        this.getLocation()
     }
 
     render() {
+        console.log(this.state)
         return (
             <MapView 
             style={{flex: 1}}
@@ -34,8 +82,8 @@ export default class Map extends Component {
                         </Callout>
                     </Marker>
                 ))
-
                 }
+                
             </MapView>
         )
     }
