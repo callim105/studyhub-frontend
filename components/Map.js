@@ -10,9 +10,13 @@ export default class Map extends Component {
     constructor(props){
         super(props)
         this.state = {
-            location: {},
+            location: {
+                lat:42.8781,
+                lng:-86.6298
+            },
             isFetching: false,
         }
+        
     }
 
     verifyPermissions = async () => {
@@ -35,10 +39,11 @@ export default class Map extends Component {
         }
 
         try{
-            this.setState({isFetching: true})
             const location = await Location.getCurrentPositionAsync({timeout: 5000});
             console.log(location);
-            this.setState({location:{
+            this.setState({
+                isFetching: true,
+                location:{
                 lat: location.coords.latitude,
                 lng: location.coords.longitude
             }});
@@ -48,11 +53,23 @@ export default class Map extends Component {
         this.setState({isFetching: false})
     }
 
+    renderLocation = () => {
+        return !this.state.isFetching ? 
+                    <Marker
+                        coordinate={{latitude: this.state.location.lat, 
+                        longitude: this.state.location.lng}}
+                        title="Your Location"
+                        pinColor='blue'
+                     >
+                         <Image source={require('../assets/images/blue_person.png')} style={{height: 20, width: 20 }} />
+                     </Marker>
+                     : null 
+    }
 
 
 
     componentDidMount(){
-        this.getLocation()
+       this.getLocation()
     }
 
     render() {
@@ -83,6 +100,7 @@ export default class Map extends Component {
                     </Marker>
                 ))
                 }
+                {this.renderLocation()}
                 
             </MapView>
         )
