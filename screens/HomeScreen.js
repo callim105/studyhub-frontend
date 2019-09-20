@@ -22,9 +22,10 @@ const { manifest } = Constants;
 const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
 // const uri = 'http://10.198.66.194:3000/hubs'
 
-
+import MapView, { Marker, Callout } from 'react-native-maps';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 import Map from '../components/Map'
-
 
 export default class HomeScreen extends React.Component{
     constructor(props){
@@ -32,12 +33,70 @@ export default class HomeScreen extends React.Component{
         this.state = { 
             isLoading: true,
             hubs: [],
+            location: {
+                lat:42.8781,
+                lng:-86.6298
+            },
+            isFetchingLocation: false,
         }
     }
+
+    //Get User Location
+    verifyPermissions = async () => {
+        const result = await Permissions.askAsync(Permissions.LOCATION);
+        if(result.status !== 'granted'){
+            Alert.alert(
+                'Insufficient permissions!',
+                'You need to grant location permissions to use this app.',
+                [{text: 'okay'}]
+            );
+            return false;
+        }
+        return true;
+    };
+
+    getLocation = async () => {
+        const hasPermission = await this.verifyPermissions()
+        if(!hasPermission){
+            return;
+        }
+
+        try{
+            const location = await Location.getCurrentPositionAsync({timeout: 5000});
+            console.log(location);
+            this.setState({
+                isFetching: true,
+                location:{
+                lat: location.coords.latitude,
+                lng: location.coords.longitude
+            }});
+        } catch(err){
+            Alert.alert('Could not fetch location',)
+        }
+        this.setState({isFetching: false})
+    }
+
+    renderLocation = () => {
+        return !this.state.isFetching ? 
+                    <Marker
+                        coordinate={{latitude: this.state.location.lat, 
+                        longitude: this.state.location.lng}}
+                        title="Your Location"
+                        pinColor='blue'
+                     >
+                         <Image source={require('../assets/images/blue_person.png')} style={{height: 20, width: 20 }} />
+                     </Marker>
+                     : null 
+    }
+
+
+
+
 
     //Fetches initial hubs
     componentDidMount(){
         console.log(uri)
+        this.getLocation()
         return fetch(uri)
         .then(res => res.json())
         .then(data => {
@@ -47,6 +106,7 @@ export default class HomeScreen extends React.Component{
             })
         })
         .catch(err => console.error(err))
+
     }
 
     renderStars = (rating) => {
@@ -57,6 +117,8 @@ export default class HomeScreen extends React.Component{
         }
         return (stars.join(''))
     }
+
+
     //Render with loading screen for fetch
     render(){
         if(this.state.isLoading){
@@ -69,7 +131,11 @@ export default class HomeScreen extends React.Component{
         
         return (
             <View style={styles.container}>
-                <Map hubs={this.state.hubs} renderStars={this.renderStars}/>
+                <Map 
+                    hubs={this.state.hubs} 
+                    renderStars={this.renderStars}
+                    renderLocation={this.renderLocation}
+                />
                 <HubScroll 
                     isLoading={this.state.isLoading} 
                     hubs={this.state.hubs} 

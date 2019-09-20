@@ -9,69 +9,10 @@ import * as Permissions from 'expo-permissions';
 export default class Map extends Component {
     constructor(props){
         super(props)
-        this.state = {
-            location: {
-                lat:42.8781,
-                lng:-86.6298
-            },
-            isFetching: false,
-        }
+        
         
     }
-
-    verifyPermissions = async () => {
-        const result = await Permissions.askAsync(Permissions.LOCATION);
-        if(result.status !== 'granted'){
-            Alert.alert(
-                'Insufficient permissions!',
-                'You need to grant location permissions to use this app.',
-                [{text: 'okay'}]
-            );
-            return false;
-        }
-        return true;
-    };
-
-    getLocation = async () => {
-        const hasPermission = await this.verifyPermissions()
-        if(!hasPermission){
-            return;
-        }
-
-        try{
-            const location = await Location.getCurrentPositionAsync({timeout: 5000});
-            console.log(location);
-            this.setState({
-                isFetching: true,
-                location:{
-                lat: location.coords.latitude,
-                lng: location.coords.longitude
-            }});
-        } catch(err){
-            Alert.alert('Could not fetch location',)
-        }
-        this.setState({isFetching: false})
-    }
-
-    renderLocation = () => {
-        return !this.state.isFetching ? 
-                    <Marker
-                        coordinate={{latitude: this.state.location.lat, 
-                        longitude: this.state.location.lng}}
-                        title="Your Location"
-                        pinColor='blue'
-                     >
-                         <Image source={require('../assets/images/blue_person.png')} style={{height: 20, width: 20 }} />
-                     </Marker>
-                     : null 
-    }
-
-
-
-    componentDidMount(){
-       this.getLocation()
-    }
-
+  
     render() {
         console.log(this.state)
         return (
@@ -100,7 +41,7 @@ export default class Map extends Component {
                     </Marker>
                 ))
                 }
-                {this.renderLocation()}
+                {this.props.renderLocation()}
                 
             </MapView>
         )
@@ -110,7 +51,7 @@ export default class Map extends Component {
 const initialCoords = {
     latitude: 41.8781,
     longitude: -87.6298,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitudeDelta: 0.0022,
+    longitudeDelta: 0.0821,
 }
 
