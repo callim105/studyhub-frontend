@@ -13,7 +13,6 @@ import {
 
 } from 'react-native';
 
-import MapView, { Marker, Callout } from 'react-native-maps';
 import { MonoText } from '../components/StyledText';
 import HubScroll from '../components/HubScroll';
 
@@ -24,7 +23,7 @@ const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
 // const uri = 'http://10.198.66.194:3000/hubs'
 
 
-
+import Map from '../components/Map'
 
 
 export default class HomeScreen extends React.Component{
@@ -70,33 +69,7 @@ export default class HomeScreen extends React.Component{
         
         return (
             <View style={styles.container}>
-                <MapView 
-                style={{flex: 1}}
-                initialRegion={initialCoords}
-                >
-                    {this.state.hubs.map(marker => (
-                        <Marker
-                            coordinate={{latitude: Number(marker.latitude), longitude: Number(marker.longitude)}}
-                            title={marker.name}
-                            description={marker.description}
-                            key={marker.id}
-                        >
-                            <Callout
-                            onPress={() => console.log("fix?")}
-                            >
-                                <Text>{marker.name}</Text>
-                                <Text>{marker.description}</Text>
-                                <Text>{this.renderStars(marker.rating)}</Text>
-                                <Image 
-                                style={{width: 50, height: 50}}
-                                source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}
-                                />
-                            </Callout>
-                        </Marker>
-                    ))
-
-                    }
-                </MapView>
+                <Map hubs={this.state.hubs} renderStars={this.renderStars}/>
                 <HubScroll 
                 isLoading={this.state.isLoading} 
                 hubs={this.state.hubs} 

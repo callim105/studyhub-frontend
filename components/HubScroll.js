@@ -6,7 +6,7 @@ import Constants from "expo-constants";
 const { manifest } = Constants;
 const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
 // const uri = 'http://10.198.66.194:3000/hubs'
-
+import HubCard from './HubCard'
 
 
 export default class HubScroll extends Component {
@@ -33,25 +33,7 @@ export default class HubScroll extends Component {
                 </View>
                 <ScrollView contentContainerStyle={{ paddingVertical: 5 }}>
                     {this.props.hubs.map(({ name, rating, id ,reviews}) => (
-                        <Card key={id}>
-                            <Text style={{ marginBottom: 10 }}>
-                                {name}
-                            </Text>
-                            <Text>
-                                Rating: {this.props.renderStars(rating)}
-                            </Text>
-                            <Button
-                                title="View More"
-                                
-                                onPress={()=>{this.props.navigation.navigate('HubShow',{
-                                    rating: rating,
-                                    name: name,
-                                    id: id,
-                                    reviewsLength: reviews.length,
-                                    reviews: reviews
-                                })}}
-                            />
-                        </Card>
+                        <HubCard key={id} name={name} rating={rating} id={id} reviews={reviews} renderStars={this.props.renderStars} navigation={this.props.navigation}/>
                     ))
                     }
                 </ScrollView>
