@@ -6,9 +6,11 @@ import * as Location from 'expo-location';
 import NoiseRadioButtons from '../components/NoiseRadioButtons'
 //Import location component
 //URL for fetch post
+//Importan updates? not really... delete this comment later
 import Constants from "expo-constants";
 const { manifest } = Constants;
 const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
+
 
 export default class AddHubScreen extends Component{
     constructor(){
