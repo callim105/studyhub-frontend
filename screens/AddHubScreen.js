@@ -4,7 +4,7 @@ import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity, Button
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import NoiseRadioButtons from '../components/NoiseRadioButtons'
-
+//Import location component
 //URL for fetch post
 import Constants from "expo-constants";
 const { manifest } = Constants;
