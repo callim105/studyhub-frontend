@@ -3,7 +3,7 @@ import hubReducer from './hubReducer'
 
 
 const rootReducer = combineReducers({
-    hubReducer,
+   hubs: hubReducer,
 })
 
 export default rootReducer

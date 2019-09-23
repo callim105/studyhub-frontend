@@ -27,12 +27,14 @@ import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import Map from '../components/Map'
 
-export default class HomeScreen extends React.Component{
+import { connect } from 'react-redux'
+import { fetchHubs } from '../redux/actions/hubActions'
+
+class HomeScreen extends React.Component{
     constructor(props){
         super(props)
         this.state = { 
             isLoading: true,
-            hubs: [],
             location: {
                 lat:42.8781,
                 lng:-86.6298
@@ -95,18 +97,10 @@ export default class HomeScreen extends React.Component{
 
     //Fetches initial hubs
     componentDidMount(){
-        console.log(uri)
+        console.log(this.props)
         this.getLocation()
-        return fetch(uri)
-        .then(res => res.json())
-        .then(data => {
-            this.setState({
-                isLoading: false,
-                hubs: data
-            })
-        })
-        .catch(err => console.error(err))
-
+        this.props.fetchHubs()
+        this.setState({isLoading: false})
     }
 
     renderStars = (rating) => {
@@ -121,6 +115,7 @@ export default class HomeScreen extends React.Component{
 
     //Render with loading screen for fetch
     render(){
+        
         if(this.state.isLoading){
             return(
                 <View style={{flex: 1, padding: 20}}>
@@ -132,13 +127,13 @@ export default class HomeScreen extends React.Component{
         return (
             <View style={styles.container}>
                 <Map 
-                    hubs={this.state.hubs} 
+                    hubs={this.props.hubs} 
                     renderStars={this.renderStars}
                     renderLocation={this.renderLocation}
                 />
                 <HubScroll 
                     isLoading={this.state.isLoading} 
-                    hubs={this.state.hubs} 
+                    hubs={this.props.hubs} 
                     renderStars={this.renderStars}
                     navigation={this.props.navigation}
                 />
@@ -147,12 +142,7 @@ export default class HomeScreen extends React.Component{
     }
 }
 
-const initialCoords = {
-    latitude: 41.8781,
-    longitude: -87.6298,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-}
+
 
 //Navbar top options
 HomeScreen.navigationOptions = {
@@ -175,3 +165,9 @@ const styles = StyleSheet.create({
   }
 
 });
+
+const mapStateToProps = state => {
+    return { hubs: state.hubs }
+}
+
+export default connect(mapStateToProps, { fetchHubs })(HomeScreen);
