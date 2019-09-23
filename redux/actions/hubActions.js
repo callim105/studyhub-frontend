@@ -28,3 +28,14 @@ export function addHub(state){
         .then(hub => dispatch({type:'ADD_HUB', hub}))
     }
 }
+
+export function fetchHubs(){
+    return dispatch => {
+        return fetch(uri)
+        .then(res => res.json())
+        .then(hubs => {
+            dispatch({type:'FETCH_HUBS', hubs})
+        })
+        .catch(err => console.error(err))
+    }
+}
