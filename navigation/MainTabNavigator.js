@@ -95,10 +95,14 @@ ProfileStack.navigationOptions = {
 ProfileStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  AddHubStack,
-  ProfileStack,
-});
+    HomeStack,
+    AddHubStack,
+    ProfileStack,
+    },
+    {
+    backBehavior: "initialRoute"
+    }
+);
 
 tabNavigator.path = '';
 

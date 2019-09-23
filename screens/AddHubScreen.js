@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity, Button, AsyncStorage } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity, Button, AsyncStorage, Alert } from 'react-native';
 
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -11,8 +11,13 @@ import Constants from "expo-constants";
 const { manifest } = Constants;
 const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
 
+//redux stuff
+import { connect } from 'react-redux';
+import { addHub } from '../redux/actions/hubActions'
 
-export default class AddHubScreen extends Component{
+import { NavigationActions } from 'react-navigation'
+
+class AddHubScreen extends Component{
     constructor(){
         super()
         this.state = {
@@ -33,27 +38,18 @@ export default class AddHubScreen extends Component{
     }
 
     handleHubSubmit = () => {
-        fetch(uri, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Accepts": "application/json",
-            },
-            body: JSON.stringify({
-                hub: {
-                    name: this.state.hubName,
-                    latitude: this.state.addLocation.lat,
-                    longitude: this.state.addLocation.lng,
-                    wifi: this.state.hubWifi,
-                    restrooms: this.state.hubRestrooms,
-                    noise: this.state.hubNoise
-                }
-            })
+        this.props.addHub(this.state)
+        Alert.alert('Hub Added!')
+        this.setState({
+            hubName: '',
+            hubWifi: false,
+            hubDescription: '',
+            hubRestrooms: false,
+            hubNoise: null,
         })
-        .then(res => res.json())
-        .then(console.log)
+        
     }
-//NEED TO REDUX THIS NOW BEFORE MOVING ON.
+
 
     addHubLocation = (e) => {
         this.setState({
@@ -70,7 +66,7 @@ export default class AddHubScreen extends Component{
     }
 
     render(){
-        console.log(this.state)
+        
             return(
                 <View style={styles.container}>
                     <MapView
@@ -217,3 +213,5 @@ const styles = StyleSheet.create({
         borderColor: 'black'
     }
 });
+
+export default connect(null, { addHub })(AddHubScreen);
