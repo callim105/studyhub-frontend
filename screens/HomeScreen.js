@@ -65,7 +65,6 @@ class HomeScreen extends React.Component{
 
         try{
             const location = await Location.getCurrentPositionAsync({timeout: 5000});
-            console.log(location);
             this.setState({
                 isFetching: true,
                 location:{
@@ -97,7 +96,6 @@ class HomeScreen extends React.Component{
 
     //Fetches initial hubs
     componentDidMount(){
-        console.log(this.props)
         this.getLocation()
         this.props.fetchHubs()
         this.setState({isLoading: false})

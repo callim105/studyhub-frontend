@@ -6,7 +6,6 @@ const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
 
 export function addHub(state){
     return (dispatch) => {
-        console.log("Im fetching!")
         return fetch(uri, {
             method: 'POST',
             headers: {
@@ -18,6 +17,7 @@ export function addHub(state){
                     name: state.hubName,
                     latitude: state.addLocation.lat,
                     longitude: state.addLocation.lng,
+                    description: state.hubDescription,
                     wifi: state.hubWifi,
                     restrooms: state.hubRestrooms,
                     noise: state.hubNoise

@@ -98,6 +98,8 @@ class AddHubScreen extends Component{
                                     style={styles.description} 
                                     multiline={true}
                                     autoCapitalize="sentences"
+                                    onChangeText={text => this.setState({hubDescription: text})}
+                                    value={this.state.hubDescription}
                                 />
 
                                 <Text>Latitude:{this.state.addLocation.lat}</Text>

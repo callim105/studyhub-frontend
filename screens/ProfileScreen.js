@@ -12,6 +12,7 @@ export default function ProfileScreen(props) {
 
     handleLogOut = () => {
         AsyncStorage.removeItem('jwt')
+        AsyncStorage.removeItem('user')
         props.navigation.navigate('Auth')
     }
 

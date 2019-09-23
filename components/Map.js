@@ -14,7 +14,7 @@ export default class Map extends Component {
     }
   
     render() {
-        console.log(this.state)
+    
         return (
             <MapView 
             style={{flex: 1}}

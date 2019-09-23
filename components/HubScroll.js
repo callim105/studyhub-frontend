@@ -32,8 +32,17 @@ export default class HubScroll extends Component {
                     <Text style={styles.hubScrollTitle}>Hubs near you...</Text>
                 </View>
                 <ScrollView contentContainerStyle={{ paddingVertical: 5 }}>
-                    {this.props.hubs.map(({ name, rating, id ,reviews}) => (
-                        <HubCard key={id} name={name} rating={rating} id={id} reviews={reviews} renderStars={this.props.renderStars} navigation={this.props.navigation}/>
+                    {this.props.hubs.map(({ name, rating, id ,description, reviews}) => (
+                        <HubCard 
+                            key={id} 
+                            name={name} 
+                            rating={rating}
+                            id={id} 
+                            reviews={reviews} 
+                            description={description}
+                            renderStars={this.props.renderStars} 
+                            navigation={this.props.navigation}
+                        />
                     ))
                     }
                 </ScrollView>
