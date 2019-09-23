@@ -4,8 +4,9 @@ import { Card } from 'react-native-elements'
 
 export default function HubCard(props){
 
-    const {id, name, rating, reviews} = props
+    const {id, name, rating, description, reviews} = props
     
+    console.log(props)
     return (
         <Card>
             <Text style={{ marginBottom: 10 }}>
@@ -21,6 +22,7 @@ export default function HubCard(props){
                     rating: rating,
                     name: name,
                     id: id,
+                    description: description,
                     reviewsLength: reviews.length,
                     reviews: reviews
                 })}}
