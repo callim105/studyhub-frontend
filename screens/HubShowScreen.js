@@ -7,7 +7,7 @@ import * as Permissions from 'expo-permissions';
 import Constants from "expo-constants";
 const { manifest } = Constants;
 const railsImageUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/images`;
-
+import { SliderBox } from 'react-native-image-slider-box';
 
 
 //Cloudinary api
@@ -22,7 +22,8 @@ class HubShowScreen extends Component {
         this.state={
             modalVisible: false,
             takenImage: null,
-            images: []
+            images: [],
+            imageUrls: []
         }
         this.id = this.props.navigation.getParam('id', 'noId')
     }
@@ -35,7 +36,10 @@ class HubShowScreen extends Component {
         const hubImages = this.props.images.filter(image => {
             return image.hub_id == this.id
         })
-        this.setState({images: hubImages})
+        const imageUrls = []
+        hubImages.forEach(image => imageUrls.push(image.image_url))
+        this.setState({images: hubImages, imageUrls: imageUrls})
+
     }
    
 
@@ -170,10 +174,11 @@ class HubShowScreen extends Component {
 
                 <View styles={styles.imageContainer}>
                     {this.state.images.length > 0 ? 
-                        <Image 
-                        source={{uri:this.state.images[0].image_url}}
-                        style={{height: 300, width: '100%'}}
-                        />
+                        <SliderBox images={this.state.imageUrls} />
+                        // <Image 
+                        // source={{uri:this.state.images[0].image_url}}
+                        // style={{height: 300, width: '100%'}}
+                        // />
                         :
                         // <Image source={{uri: this.state.takenImage}} style={{height:300, width:'100%'}}/>
                         <Image source={require('../assets/images/Study_Hub.png')} style={{height:300, width:'100%'}}/>
