@@ -91,7 +91,10 @@ class AddReviewModal extends Component {
                         />
                         
                         <TouchableOpacity
-                            onPress={() => this.props.addReview(this.state)}
+                            onPress={() => {
+                                this.props.addReview(this.state)
+                                this.props.setModalVisible(!this.props.modalVisible)
+                            }}
                         >
                             <Text>
                                 Submit Review

@@ -15,6 +15,9 @@ export default class HubScroll extends Component {
 
     }
 
+    sortHubsByRating = () => {
+        return(this.props.hubs.sort((a, b) => (a.rating > b.rating) ? -1 : (a.rating === b.rating) ? ((a.reviews.length > b.reviews.length) ? -1 : 1) : 1 ))
+    }
 
     render() {
 
@@ -32,7 +35,7 @@ export default class HubScroll extends Component {
                     <Text style={styles.hubScrollTitle}>Hubs near you...</Text>
                 </View>
                 <ScrollView contentContainerStyle={{ paddingVertical: 5 }}>
-                    {this.props.hubs.map(({ name, rating, id ,description, reviews}) => (
+                    {this.sortHubsByRating().map(({ name, rating, id ,description, reviews}) => (
                         <HubCard 
                             key={id} 
                             name={name} 

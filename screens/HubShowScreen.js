@@ -21,12 +21,31 @@ class HubShowScreen extends Component {
 
 
     renderStars = (rating) => {
-        let numRating = Number(rating)
-        let stars = []
-        for(let i = 0; i < numRating; i++ ){
-            stars.push('⭐')
+        if(rating){
+            let numRating = Number(rating)
+            let stars = []
+            for(let i = 0; i < numRating; i++ ){
+                stars.push('⭐')
+            }
+            return (stars.join(''))
+        } else {
+            return "No Reviews"
         }
-        return (stars.join(''))
+    }
+
+    calcRating = () => {
+        const ratings = []
+        let reviews = this.filterReviews()
+        reviews.forEach(review => ratings.push(review.rating))
+        let count = ratings.length;
+        if(count > 0){
+            let values = ratings.reduce((previous, current) => current += previous);
+            return(Math.floor(values /= count));
+        } else {
+            return null
+        }
+        
+       
     }
 
     filterReviews = () => {
@@ -50,9 +69,7 @@ class HubShowScreen extends Component {
 
 
     render() {
-        console.log(this.props.reviews.map( review => review.hub.id))
-        console.log('my hub id is', this.id)
-        console.log(this.filterReviews())
+        this.calcRating()
         return (
             <View styles={styles.screen}>
                 
@@ -67,7 +84,7 @@ class HubShowScreen extends Component {
                 </View>
                 <View>
                     <Text style={styles.name}>{this.name}</Text>
-                    <Text>Rating: {this.renderStars(this.rating)} ({this.reviewsLength} Reviews)</Text>
+                    <Text>Rating: {this.renderStars(this.calcRating())} ({this.filterReviews().length} Reviews)</Text>
                     <Text>Description:{this.description}</Text>
                 </View>
                 <ScrollView>
