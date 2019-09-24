@@ -35,7 +35,8 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    HubShow: HubShowScreen
+    HubShow: HubShowScreen,
+   
   },
   config
 );
