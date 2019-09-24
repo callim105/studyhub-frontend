@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { View, Text, Button, StyleSheet, Image, ScrollView, Modal, TouchableOpacity, Alert} from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-native'
 import AddReviewModal from '../components/AddReviewModal'
 import { connect } from 'react-redux';
-import { fetchReviews } from '../redux/actions/reviewActions'
+
 
 class HubShowScreen extends Component {
     constructor(props){
@@ -11,14 +11,19 @@ class HubShowScreen extends Component {
             modalVisible: false,
         }
         this.id = this.props.navigation.getParam('id', 'noId')
-        this.rating = this.props.navigation.getParam('rating', 'noRating')
-        this.name = this.props.navigation.getParam('name', 'noName')
-        this.reviewsLength = this.props.navigation.getParam('reviewsLength', 'noReviews')
-        this.reviews = this.props.navigation.getParam('reviews', 'noReviews')
-        this.description = this.props.navigation.getParam('description', 'noDescription')
+        // this.rating = this.props.navigation.getParam('rating', 'noRating')
+        // this.name = this.props.navigation.getParam('name', 'noName')
+        // this.reviewsLength = this.props.navigation.getParam('reviewsLength', 'noReviews')
+        // this.reviews = this.props.navigation.getParam('reviews', 'noReviews')
+        // this.description = this.props.navigation.getParam('description', 'noDescription')
     }
 
-
+    getThisHub = () => {
+        const currentHub = (this.props.hubs.filter(hub =>{
+            return hub.id == this.id
+        })[0])
+        return currentHub
+    }
 
     renderStars = (rating) => {
         if(rating){
@@ -33,6 +38,7 @@ class HubShowScreen extends Component {
         }
     }
 
+    //Calculates Rating
     calcRating = () => {
         const ratings = []
         let reviews = this.filterReviews()
@@ -69,7 +75,8 @@ class HubShowScreen extends Component {
 
 
     render() {
-        this.calcRating()
+        const currentHub = this.getThisHub()
+        
         return (
             <View styles={styles.screen}>
                 
@@ -83,9 +90,9 @@ class HubShowScreen extends Component {
                     <Image source={require('../assets/images/Study_Hub.png')} style={{height:300, width:'100%'}}/>
                 </View>
                 <View>
-                    <Text style={styles.name}>{this.name}</Text>
+                    <Text style={styles.name}>{currentHub.name}</Text>
                     <Text>Rating: {this.renderStars(this.calcRating())} ({this.filterReviews().length} Reviews)</Text>
-                    <Text>Description:{this.description}</Text>
+                    <Text>Description:{currentHub.description}</Text>
                 </View>
                 <ScrollView>
                     <TouchableOpacity
@@ -120,6 +127,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return ({
+        hubs: state.hubs,
         reviews: state.reviews
     })
 }

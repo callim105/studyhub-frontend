@@ -130,6 +130,7 @@ class HomeScreen extends React.Component{
                     hubs={this.props.hubs} 
                     renderStars={this.renderStars}
                     renderLocation={this.renderLocation}
+                    navigation={this.props.navigation}
                 />
                 <HubScroll 
                     isLoading={this.state.isLoading} 

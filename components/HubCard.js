@@ -4,7 +4,7 @@ import { Card } from 'react-native-elements'
 
 export default function HubCard(props){
 
-    const {id, name, rating, description, reviews} = props
+    const {id, name, rating} = props
     
     
     return (
@@ -19,12 +19,7 @@ export default function HubCard(props){
                 title="View More"
                 
                 onPress={()=>{props.navigation.navigate('HubShow',{
-                    rating: rating,
-                    name: name,
                     id: id,
-                    description: description,
-                    reviewsLength: reviews.length,
-                    reviews: reviews
                 })}}
             />
         </Card>
