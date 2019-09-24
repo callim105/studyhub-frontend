@@ -7,18 +7,21 @@ import {
     Alert, 
     StyleSheet, 
     AsyncStorage,
-    TextInput
+    TextInput,
+    Picker
 } from 'react-native'
 
-import { connect } from 'react-redux'
-
+import { connect } from 'react-redux';
+import { addReview } from '../redux/actions/reviewActions';
 
 class AddReviewModal extends Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
             currentUser: {},
-            content: ""
+            hubId: this.props.hubId,
+            content: "",
+            rating: 3
         }
     }
 
@@ -29,10 +32,8 @@ class AddReviewModal extends Component {
           const value = await AsyncStorage.getItem(key);
           if (value !== null) {
             // We have data!!
-            console.log(value);
-            this.setState({
-                currentUser: value
-            })
+            const parsed = JSON.parse(value)
+            return parsed
           } else {
             console.log(value)
           }
@@ -43,12 +44,14 @@ class AddReviewModal extends Component {
 
     componentDidMount(){
         this._retrieveData('user')
+        .then(user => this.setState({currentUser: user}))
+        .catch( err => console.log(err))
+        
     }
 
-
+   
 
     render() {
-        console.log(this.state)
         return (
             <View>
                 <Modal
@@ -61,6 +64,21 @@ class AddReviewModal extends Component {
                     <View style={{marginTop: 50}}>
                         <View style={styles.reviewModal}>
                         <Text>Add a Review!</Text>
+                        <Text>Rating</Text>
+                        <View>
+                            <Picker 
+                                selectedValue={this.state.rating}
+                                onValueChange = {value => this.setState({rating: value})}
+                                style={{heigh: 50, width: 100}}
+                            >
+                                <Picker.Item label = "1" value={1} />
+                                <Picker.Item label = "2" value={2} />
+                                <Picker.Item label = "3" value={3} />
+                                <Picker.Item label = "4" value={4} />
+                                <Picker.Item label = "5" value={5} />
+                            </Picker>
+                        </View>
+
 
                         <Text>Review</Text>
                         <TextInput 
@@ -72,9 +90,18 @@ class AddReviewModal extends Component {
                             value={this.state.content}
                         />
                         
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => this.props.addReview(this.state)}
+                        >
                             <Text>
                                 Submit Review
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => console.log(this.state)}
+                        >
+                            <Text>
+                                Console Log
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -104,4 +131,6 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AddReviewModal;
+
+
+export default connect(null, { addReview })(AddReviewModal);
