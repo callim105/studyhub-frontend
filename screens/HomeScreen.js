@@ -127,7 +127,7 @@ class HomeScreen extends React.Component{
         return (
             <View style={styles.container}>
                 <Map 
-                    hubs={this.props.hubs} 
+                    
                     renderStars={this.renderStars}
                     renderLocation={this.renderLocation}
                     navigation={this.props.navigation}
@@ -168,7 +168,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    return { hubs: state.hubs }
+    return {
+         hubs: state.hubs,
+         reviews: state.reviews
+     }
 }
 
 export default connect(mapStateToProps, { fetchHubs, fetchReviews })(HomeScreen);

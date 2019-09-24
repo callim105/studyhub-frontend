@@ -4,18 +4,20 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+//Redux
+import { connect } from 'react-redux'
 
 
-
-export default class Map extends Component {
+class Map extends Component {
     constructor(props){
         super(props)
-        
-        
     }
   
+
+    
+
+
     render() {
-        console.log(this.props.navigation)
         return (
             <MapView 
             style={{flex: 1}}
@@ -54,3 +56,10 @@ const initialCoords = {
     longitudeDelta: 0.0821,
 }
 
+const mapStateToProps = state => {
+    return({
+        hubs: state.hubs,
+        reviews: state.reviews
+    })
+}
+export default connect(mapStateToProps)(Map)
