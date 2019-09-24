@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Text, Image, Alert, } from 'react-native'
+import { Text, Image, Alert, Button } from 'react-native'
 import MapView, { Marker, Callout } from 'react-native-maps';
 
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+
 
 
 export default class Map extends Component {
@@ -14,7 +15,7 @@ export default class Map extends Component {
     }
   
     render() {
-    
+        console.log(this.props.navigation)
         return (
             <MapView 
             style={{flex: 1}}
@@ -27,16 +28,14 @@ export default class Map extends Component {
                         description={marker.description}
                         key={marker.id}
                     >
-                        <Callout
-                        onPress={() => console.log("fix?")}
-                        >
+                        <Callout onPress={() => 
+                        this.props.navigation.navigate('HubShow',{
+                        id: marker.id,})}>
                             <Text>{marker.name}</Text>
                             <Text>{marker.description}</Text>
                             <Text>{this.props.renderStars(marker.rating)}</Text>
-                            <Image 
-                            style={{width: 50, height: 50}}
-                            source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}
-                            />
+                            <Button title="View More" />
+                                
                         </Callout>
                     </Marker>
                 ))
