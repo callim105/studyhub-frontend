@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { View, Text, Button, StyleSheet, Image, ScrollView, Modal, TouchableOpacity, Alert} from 'react-native'
 import AddReviewModal from '../components/AddReviewModal'
+import { connect } from 'react-redux';
+import { fetchReviews } from '../redux/actions/reviewActions'
 
-
-
-export default class HubShowScreen extends Component {
+class HubShowScreen extends Component {
     constructor(props){
         super(props)
         this.state={
@@ -18,6 +18,8 @@ export default class HubShowScreen extends Component {
         this.description = this.props.navigation.getParam('description', 'noDescription')
     }
 
+
+
     renderStars = (rating) => {
         let numRating = Number(rating)
         let stars = []
@@ -27,10 +29,16 @@ export default class HubShowScreen extends Component {
         return (stars.join(''))
     }
 
+    filterReviews = () => {
+        return this.props.reviews.filter(review =>{
+            return review.hub.id == this.id
+        })
+    }
+
     renderReviews = () => {
-        return this.reviews.map(review => (
+        return this.filterReviews().map(review => (
             <View key={review.id}>
-                <Text>User: {review.user_id}</Text>
+                <Text>User: {review.user.username}</Text>
                 <Text>{review.content}</Text>
             </View>
         ))
@@ -42,7 +50,9 @@ export default class HubShowScreen extends Component {
 
 
     render() {
-        console.log(this.reviews)
+        console.log(this.props.reviews.map( review => review.hub.id))
+        console.log('my hub id is', this.id)
+        console.log(this.filterReviews())
         return (
             <View styles={styles.screen}>
                 
@@ -90,3 +100,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     }
 })
+
+const mapStateToProps = (state) => {
+    return ({
+        reviews: state.reviews
+    })
+}
+
+export default connect(mapStateToProps)(HubShowScreen)

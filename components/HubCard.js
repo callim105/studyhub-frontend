@@ -6,7 +6,7 @@ export default function HubCard(props){
 
     const {id, name, rating, description, reviews} = props
     
-    console.log(props)
+    
     return (
         <Card>
             <Text style={{ marginBottom: 10 }}>

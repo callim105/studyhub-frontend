@@ -29,6 +29,7 @@ import Map from '../components/Map'
 
 import { connect } from 'react-redux'
 import { fetchHubs } from '../redux/actions/hubActions'
+import { fetchReviews } from '../redux/actions/reviewActions'
 
 class HomeScreen extends React.Component{
     constructor(props){
@@ -98,6 +99,7 @@ class HomeScreen extends React.Component{
     componentDidMount(){
         this.getLocation()
         this.props.fetchHubs()
+        this.props.fetchReviews()
         this.setState({isLoading: false})
     }
 
@@ -168,4 +170,4 @@ const mapStateToProps = state => {
     return { hubs: state.hubs }
 }
 
-export default connect(mapStateToProps, { fetchHubs })(HomeScreen);
+export default connect(mapStateToProps, { fetchHubs, fetchReviews })(HomeScreen);

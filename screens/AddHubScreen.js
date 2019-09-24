@@ -58,7 +58,6 @@ class AddHubScreen extends Component{
                 lng: e.nativeEvent.coordinate.longitude
             }
         })
-        console.log(e.nativeEvent.coordinate)
     }
 
     setNoiseLevel = (level) => {
