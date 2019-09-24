@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-native'
 import AddReviewModal from '../components/AddReviewModal'
 import { connect } from 'react-redux';
+import { grey } from 'ansi-colors';
 
 
 class HubShowScreen extends Component {
@@ -11,11 +12,7 @@ class HubShowScreen extends Component {
             modalVisible: false,
         }
         this.id = this.props.navigation.getParam('id', 'noId')
-        // this.rating = this.props.navigation.getParam('rating', 'noRating')
-        // this.name = this.props.navigation.getParam('name', 'noName')
-        // this.reviewsLength = this.props.navigation.getParam('reviewsLength', 'noReviews')
-        // this.reviews = this.props.navigation.getParam('reviews', 'noReviews')
-        // this.description = this.props.navigation.getParam('description', 'noDescription')
+        
     }
 
     getThisHub = () => {
@@ -50,8 +47,6 @@ class HubShowScreen extends Component {
         } else {
             return null
         }
-        
-       
     }
 
     filterReviews = () => {
@@ -62,8 +57,8 @@ class HubShowScreen extends Component {
 
     renderReviews = () => {
         return this.filterReviews().map(review => (
-            <View key={review.id}>
-                <Text>User: {review.user.username}</Text>
+            <View key={review.id} style={styles.indyReview}>
+                <Text style={{color: 'grey', fontSize: 15}}>User: {review.user.username} says...</Text>
                 <Text>{review.content}</Text>
             </View>
         ))
@@ -93,17 +88,21 @@ class HubShowScreen extends Component {
                     <Text style={styles.name}>{currentHub.name}</Text>
                     <Text>Rating: {this.renderStars(this.calcRating())} ({this.filterReviews().length} Reviews)</Text>
                     <Text>Description:{currentHub.description}</Text>
+                    <View style={styles.addReviewHolder}>
+                        <TouchableOpacity
+                            onPress={()=>{
+                                this.setModalVisible(true)
+                            }}
+                        >
+                            <Text style={styles.addReviewText}>
+                            Add Review
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <ScrollView>
-                    <TouchableOpacity
-                        onPress={()=>{
-                            this.setModalVisible(true)
-                        }}
-                    >
-                        <Text>
-                        Add Review
-                        </Text>
-                    </TouchableOpacity>
+                
+                <ScrollView contentContainerStyle={styles.reviewsHolder}>
+                    
                     {this.renderReviews()}
                 </ScrollView>
 
@@ -122,6 +121,26 @@ const styles = StyleSheet.create({
     },
     reviewModal:{
         alignItems: 'center',
+    },
+    addReviewHolder:{
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: 'black'
+    },
+    addReviewText:{
+        fontSize: 20,
+        color: 'blue'
+    },
+    reviewsHolder:{
+        alignItems: 'center'
+        
+    },
+    indyReview:{
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        width: '80%',
+        alignItems: 'flex-start',
+        padding: 10
     }
 })
 
