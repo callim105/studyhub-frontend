@@ -8,7 +8,7 @@ import Constants from "expo-constants";
 const { manifest } = Constants;
 const railsImageUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/images`;
 import { SliderBox } from 'react-native-image-slider-box';
-
+import { AsyncStorage } from 'react-native';
 
 //Cloudinary api
 const cloudKey = "238271533983158"
@@ -23,13 +23,16 @@ class HubShowScreen extends Component {
             modalVisible: false,
             takenImage: null,
             images: [],
-            imageUrls: []
+            imageUrls: [],
+            currentUser: {}
         }
         this.id = this.props.navigation.getParam('id', 'noId')
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         this.filterHubImages()
+        const user = await this._retrieveData('user')
+        this.setState({currentUser: user})
     }
 
     filterHubImages = () => {
@@ -149,7 +152,7 @@ class HubShowScreen extends Component {
                     body: JSON.stringify({
                         image: {
                             hub_id: this.id,
-                            user_id: this.props.user.id,
+                            user_id: this.state.currentUser.id,
                             image_url: photoUrl
                         }
                     })
@@ -160,9 +163,22 @@ class HubShowScreen extends Component {
         }
     }
 
+
+    //Retrieve user data!
+    _retrieveData = async (key) => {
+        let value
+        try {
+          value = await AsyncStorage.getItem(key);
+          return value
+        } catch (error) {
+          // Error retrieving data
+          console.log('error')
+        }
+    };
+
     render() {
         const currentHub = this.getThisHub()
-        console.log(this.state.images)
+        console.log(this.state.currentUser)
         return (
             <View styles={styles.screen}>
                 

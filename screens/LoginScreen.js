@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 import Colors from '../constants/Colors'
-import {AsyncStorage} from 'react-native';
 import Constants from "expo-constants";
 const { manifest } = Constants;
 const loginUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/login`;
@@ -32,17 +32,16 @@ class LoginScreen extends Component {
     };
 
     _retrieveData = async (key) => {
+        let value
         try {
-          const value = await AsyncStorage.getItem(key);
-          if (value !== null) {
-            // We have data!!
-            console.log(value);
-          } else {
-            console.log(value)
-          }
+          value = await AsyncStorage.getItem(key);
+          console.log(value)
+          return value
         } catch (error) {
           // Error retrieving data
         }
+        
+        
       };
 
     //Function to facilitate login, store JWT in AsyncStorage
@@ -68,6 +67,7 @@ class LoginScreen extends Component {
         })
         .then(() => {
             this._retrieveData('jwt')
+            this._retrieveData('user')
             this.props.navigation.navigate('Main')
         })
         .catch(err => console.log(err))
