@@ -10,6 +10,8 @@ const railsImageUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/i
 import { SliderBox } from 'react-native-image-slider-box';
 import { AsyncStorage } from 'react-native';
 
+
+import { fetchUser } from '../redux/actions/userActions'
 //Cloudinary api
 const cloudKey = "238271533983158"
 const cloudName = 'callimx'
@@ -30,10 +32,24 @@ class HubShowScreen extends Component {
     }
 
     async componentDidMount(){
+        this.props.fetchUser()
         this.filterHubImages()
         const user = await this._retrieveData('user')
-        this.setState({currentUser: user})
+        this.setState({currentUser: this.props.user})
     }
+
+    _retrieveData = async (key) => {
+        try {
+            const value = await AsyncStorage.getItem(key);
+            if (value !== null) {
+              // We have data!!
+              return value
+            }
+        } catch (error) {
+          // Error retrieving data
+          console.log('error')
+        }
+    };
 
     filterHubImages = () => {
         const hubImages = this.props.images.filter(image => {
@@ -141,7 +157,7 @@ class HubShowScreen extends Component {
                 method: 'POST',
             }).then(async r => {
                 let data = await r.json()
-                console.log(data.secure_url)
+                
                 let photoUrl = data.secure_url
                 fetch(railsImageUri,{
                     method: 'POST',
@@ -164,21 +180,11 @@ class HubShowScreen extends Component {
     }
 
 
-    //Retrieve user data!
-    _retrieveData = async (key) => {
-        let value
-        try {
-          value = await AsyncStorage.getItem(key);
-          return value
-        } catch (error) {
-          // Error retrieving data
-          console.log('error')
-        }
-    };
+    
 
     render() {
         const currentHub = this.getThisHub()
-        console.log(this.state.currentUser)
+       
         return (
             <View styles={styles.screen}>
                 
@@ -280,4 +286,4 @@ const mapStateToProps = (state) => {
     })
 }
 
-export default connect(mapStateToProps)(HubShowScreen)
+export default connect(mapStateToProps, { fetchUser })(HubShowScreen)
