@@ -1,14 +1,37 @@
-import React from 'react';
-import { ExpoConfigView } from '@expo/samples';
+import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { AsyncStorage } from 'react-native';
 
 
-export default function ProfileScreen(props) {
-    /**
-     * Go ahead and delete ExpoConfigView and replace it with your content;
-     * we just wanted to give you a quick view of your config.
-     */
+export default class ProfileScreen extends Component {
+    
+    constructor(){
+        super()
+        this.state = {
+            currentUser: {}
+        }
+        
+    }
+
+    async componentDidMount(){
+        const user = await this._retrieveData('user')
+        this.setState({currentUser: JSON.parse(user)})
+    }
+
+
+
+    _retrieveData = async (key) => {
+        try {
+            const value = await AsyncStorage.getItem(key);
+            if (value !== null) {
+              // We have data!!
+              return value
+            }
+        } catch (error) {
+          // Error retrieving data
+          console.log('error')
+        }
+    };
 
     handleLogOut = () => {
         AsyncStorage.removeItem('jwt')
@@ -16,12 +39,36 @@ export default function ProfileScreen(props) {
         props.navigation.navigate('Auth')
     }
 
-    return (
-        <View>
-            <Text>Your Profile</Text>
-            <Button title="Log Out" onPress={handleLogOut} />
-        </View>
-    );
+    hasDataRender = () => {
+        // console.log(this.state.currentUser)
+        if(this.state.currentUser.username){
+            return (
+            <View>
+                <Text>Your Profile</Text>
+                <Text>Username: {this.state.currentUser.username}</Text>
+                <Text>{this.state.currentUser.id}</Text>
+                <Button title="Log Out" onPress={this.handleLogOut} />
+            </View>)
+            
+        } else {
+    
+            return(
+            <View>
+                <Text>Your Profile</Text>
+                <Text>Loading </Text>
+                <Button title="Log Out" onPress={this.handleLogOut} />
+            </View>)
+        }
+    }
+
+    render(){
+        console.log(this.state.currentUser)
+        return(
+            <View>
+                {this.hasDataRender()}
+            </View>
+        )
+    }
 }
 
 ProfileScreen.navigationOptions = {
