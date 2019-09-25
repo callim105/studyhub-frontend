@@ -7,7 +7,7 @@ import Constants from "expo-constants";
 const { manifest } = Constants;
 const loginUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/login`;
 
-import { addUser } from '../redux/actions/userActions'
+import { addUser, fetchUser } from '../redux/actions/userActions'
 import { connect } from 'react-redux';
 
 class LoginScreen extends Component {
@@ -23,26 +23,14 @@ class LoginScreen extends Component {
         this.fetchLogin()
     }
 
-    _storeData = async (key1, val1,key2, val2) => {
+    _storeData = async (key, value) => {
         try {
-          await AsyncStorage.multiSet([[key1, val1], [key2,val2]]);
+          await AsyncStorage.setItem(key, value)
         } catch (error) {
           // Error saving data
         }
     };
 
-    _retrieveData = async (key) => {
-        let value
-        try {
-          value = await AsyncStorage.getItem(key);
-          console.log(value)
-          return value
-        } catch (error) {
-          // Error retrieving data
-        }
-        
-        
-      };
 
     //Function to facilitate login, store JWT in AsyncStorage
     fetchLogin = () => {
@@ -61,13 +49,11 @@ class LoginScreen extends Component {
         })
         .then(res => res.json())
         .then(data => {
-           this._storeData('user', JSON.stringify(data.user),'jwt', JSON.stringify(data.jwt))
-           this.props.addUser(data.user)
-           
+           this._storeData('jwt', data.jwt)
+          
         })
         .then(() => {
-            this._retrieveData('jwt')
-            this._retrieveData('user')
+            
             this.props.navigation.navigate('Main')
         })
         .catch(err => console.log(err))
@@ -194,4 +180,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect(null, { addUser })(LoginScreen)
+export default connect(null, { fetchUser })(LoginScreen)

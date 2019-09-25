@@ -31,6 +31,7 @@ import { connect } from 'react-redux'
 import { fetchHubs } from '../redux/actions/hubActions'
 import { fetchReviews } from '../redux/actions/reviewActions'
 import {fetchImages} from '../redux/actions/imageActions'
+import { fetchUser } from '../redux/actions/userActions'
 
 class HomeScreen extends React.Component{
     constructor(props){
@@ -92,12 +93,27 @@ class HomeScreen extends React.Component{
                      : null 
     }
 
-
+    //Try to get this token
+    _retrieveData =  async (key) => {
+        try {
+            const value = await AsyncStorage.getItem(key);
+            if (value !== null) {
+              // We have data!!
+              console.log(value)
+              return value
+            }
+        } catch (error) {
+          // Error retrieving data
+          throw error;
+        }
+    };
 
 
 
     //Fetches initial hubs
     componentDidMount(){
+        
+        this.props.fetchUser()
         this.getLocation()
         this.props.fetchHubs()
         this.props.fetchReviews()
@@ -117,7 +133,6 @@ class HomeScreen extends React.Component{
 
     //Render with loading screen for fetch
     render(){
-        
         if(this.state.isLoading){
             return(
                 <View style={{flex: 1, padding: 20}}>
@@ -178,4 +193,4 @@ const mapStateToProps = state => {
      }
 }
 
-export default connect(mapStateToProps, { fetchHubs, fetchReviews, fetchImages })(HomeScreen);
+export default connect(mapStateToProps, { fetchHubs, fetchReviews, fetchImages, fetchUser })(HomeScreen);
