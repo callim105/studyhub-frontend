@@ -12,3 +12,9 @@ export function fetchImages(){
         .catch(err => console.error(err))
     }
 }
+
+export function addImage(image){
+    return (dispatch) => {
+        dispatch({ type: 'ADD_IMAGE', image })
+    }
+}

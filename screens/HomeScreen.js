@@ -10,6 +10,7 @@ import {
   View,
   ActivityIndicator,
   AsyncStorage,
+  Alert
 
 } from 'react-native';
 

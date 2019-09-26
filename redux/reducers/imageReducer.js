@@ -3,8 +3,9 @@ export default function imageReducer(state = [], action){
         case 'FETCH_IMAGES':
 
             return action.images
-        case 'ADD_IMAGES':
-            
+        case 'ADD_IMAGE':
+            console.log(action.image)
+            console.log(state)
             return [...state, action.image]
         default: 
             return state

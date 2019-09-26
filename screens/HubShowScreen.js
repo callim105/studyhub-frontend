@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert} from 'react-native'
 import AddReviewModal from '../components/AddReviewModal'
-import { connect } from 'react-redux';
+
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import Constants from "expo-constants";
@@ -10,8 +10,10 @@ const railsImageUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/i
 import { SliderBox } from 'react-native-image-slider-box';
 import { AsyncStorage } from 'react-native';
 
-
-import { fetchUser } from '../redux/actions/userActions'
+//Redux
+import { connect } from 'react-redux';
+import { addImage } from '../redux/actions/imageActions';
+import { fetchUser } from '../redux/actions/userActions';
 //Cloudinary api
 const cloudKey = "238271533983158"
 const cloudName = 'callimx'
@@ -34,22 +36,9 @@ class HubShowScreen extends Component {
     async componentDidMount(){
         this.props.fetchUser()
         this.filterHubImages()
-        const user = await this._retrieveData('user')
         this.setState({currentUser: this.props.user})
     }
 
-    _retrieveData = async (key) => {
-        try {
-            const value = await AsyncStorage.getItem(key);
-            if (value !== null) {
-              // We have data!!
-              return value
-            }
-        } catch (error) {
-          // Error retrieving data
-          console.log('error')
-        }
-    };
 
     filterHubImages = () => {
         const hubImages = this.props.images.filter(image => {
@@ -174,7 +163,7 @@ class HubShowScreen extends Component {
                     })
                 })
                 .then(res => res.json())
-                .then(console.log)
+                .then(image => this.props.addImage(image))
             }).catch(err=>console.log(err))
         }
     }
@@ -197,12 +186,7 @@ class HubShowScreen extends Component {
                 <View styles={styles.imageContainer}>
                     {this.state.images.length > 0 ? 
                         <SliderBox images={this.state.imageUrls} />
-                        // <Image 
-                        // source={{uri:this.state.images[0].image_url}}
-                        // style={{height: 300, width: '100%'}}
-                        // />
                         :
-                        // <Image source={{uri: this.state.takenImage}} style={{height:300, width:'100%'}}/>
                         <Image source={require('../assets/images/Study_Hub.png')} style={{height:300, width:'100%'}}/>
                     }
                 </View>
@@ -286,4 +270,4 @@ const mapStateToProps = (state) => {
     })
 }
 
-export default connect(mapStateToProps, { fetchUser })(HubShowScreen)
+export default connect(mapStateToProps, { fetchUser, addImage })(HubShowScreen)
