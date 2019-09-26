@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, Button, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Button, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Colors from '../constants/Colors'
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-
+import { Ionicons } from '@expo/vector-icons';
 const cloudName = 'callimx'
 import Constants from "expo-constants";
 
@@ -18,7 +18,7 @@ class Profile extends Component {
     constructor(props){
         super(props)
         this.state = {
-            image: "",
+        
         }
         this.userUrl = `http://${manifest.debuggerHost.split(':').shift()}:3000/users/${this.props.user.id}`;
     }
@@ -88,16 +88,41 @@ class Profile extends Component {
             }).catch(err=>console.log(err))
         }
     }
-
+    filterPersonalReviews = () => {
+        return this.props.reviews.filter(review =>{
+            return review.user.id == this.props.user.id
+        })
+    }
+    
+    renderPersonalReviews = () => {
+        return this.filterPersonalReviews().map(review => (
+           
+            <View key={review.id} style={styles.indyReview}>
+                <Text style={{color: 'grey', fontSize: 12}}>User: {review.user.username} says...</Text>
+                <Text style={{color: 'grey', fontSize: 12}}>Hub: {review.hub.name}</Text>
+                <Text style={{color: 'black', fontSize: 14}}>{review.content}</Text>
+                <Text style={{color: 'grey', fontSize: 10}}>Date Posted: {review.created_at.split("T")[0]}</Text>
+            </View>
+        ))
+    }
 
 
     render() {
        console.log("PROFILE", this.props.user)
         return (
             <View>
-                <View>
+                <View style={styles.avatarHolder}>
                     {this.props.user.avatar ? 
-                    <Image source={{uri: this.props.user.avatar}} style={{width: 300, height: 300}}/>
+                    <View>
+                        <Image source={{uri: this.props.user.avatar}} style={styles.avatar}/>
+                        <TouchableOpacity 
+                        style={styles.changeAvatarButton}
+                        onPress={this.takeImage}
+                        >
+
+                            <Ionicons name="md-create" size={20} color="white" />
+                        </TouchableOpacity>
+                    </View>
                     :
                     <TouchableOpacity 
                         style={styles.addAvatarButton}
@@ -107,14 +132,23 @@ class Profile extends Component {
                     </TouchableOpacity>
                     }
                 </View>
-                <Text>{this.props.user.username}</Text>
+                <View style={styles.usernameHolder}>
+                    <Text style={{fontSize: 30,}}>{this.props.user.username}</Text>
+                    <Text>{this.props.user.bio}</Text>
+                </View>
+                <View
+                style={{
+                    borderBottomColor: 'black',
+                    borderBottomWidth: 1,
+                }}
+                />
+                <Text>{this.props.user.username}'s Reviews:</Text>
+                <View style={styles.reviewsHolder}>
+                    <ScrollView contentContainerStyle={styles.reviewScroll}>
+                        {this.renderPersonalReviews()}
+                    </ScrollView>
 
-                <TouchableOpacity 
-                        style={styles.addAvatarButton}
-                        onPress={this.takeImage}
-                >
-                        <Text>Change avatar!</Text>
-                </TouchableOpacity>
+                </View>
                 
                 <Button title="Log Out" onPress={this.props.handleLogOut} />
             </View>
@@ -124,10 +158,52 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
     addAvatarButton:{
+        width: 100,
         padding:10,
         backgroundColor: Colors.loginScreenColor,
-        borderRadius:5
+    },
+    changeAvatarButton:{
+        width: 50,
+        backgroundColor: Colors.loginScreenColor,
+        borderRadius: 100,
+        borderColor:'black',
+        borderWidth: 1,
+        position: 'absolute',
+        right: 10,
+        top: 5,
+        alignItems:'center'
+    },
+    avatar:{
+        borderRadius: 20,
+        borderWidth: 2,
+        borderColor: 'black',
+        height: 200,
+        width: 200
+    },
+    avatarHolder:{
+        marginTop:20,
+        alignItems:'center'
+    },
+    usernameHolder:{
+        alignItems:'center'
+    },
+    indyReview:{
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        width: '100%',
+        alignItems: 'flex-start',
+        padding: 10
+    },
+    reviewsHolder:{
+        height: 300,
+        width: '100%',
+        alignItems:'center',
+    },
+    reviewScroll:{
+        width: 300,
+        alignItems:'center'
     }
+
 })
 
 const mapStateToProps = state => {
