@@ -128,6 +128,7 @@ class CreateUser extends Component {
                                         placeholder="Enter password..." 
                                         onChangeText={password => this.setState({password: password})}
                                         value={this.state.password}
+                                        secureTextEntry
                                     />
                                     <Text>Confirm Password</Text>
                                     <TextInput 
@@ -135,6 +136,7 @@ class CreateUser extends Component {
                                         placeholder="Confirm password..." 
                                         onChangeText={password => this.setState({confirmPassword: password})}
                                         value={this.state.confirmPassword}
+                                        secureTextEntry
                                     />
                                 </View>
                             <TouchableOpacity
@@ -151,9 +153,10 @@ class CreateUser extends Component {
                         
                         
                         <TouchableOpacity
-                                    onPress={() => {
-                                    this.props.setModalVisible(!this.props.modalVisible);
-                                    }}>
+                            style={styles.backButton}
+                            onPress={() => {
+                            this.props.setModalVisible(!this.props.modalVisible);
+                            }}>
                                     <Text>Back</Text>
                         </TouchableOpacity>
                         
@@ -202,6 +205,9 @@ const styles = StyleSheet.create({
     formLabel:{
         alignItems: 'flex-start',
         width: "100%"
+    },
+    backButton:{
+        paddingTop: 30,
     }
 })
 

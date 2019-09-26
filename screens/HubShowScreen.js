@@ -219,12 +219,12 @@ class HubShowScreen extends Component {
                     </View>
                     
                 </View>
-                
-                <ScrollView contentContainerStyle={styles.reviewsHolder}>
-                    
-                    {this.renderReviews()}
-                </ScrollView>
-
+                <View style={styles.scrollViewHolder}>
+                    <ScrollView contentContainerStyle={styles.reviewsHolder}>
+                        
+                        {this.renderReviews()}
+                    </ScrollView>
+                </View>
             </View>
         )
     }
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     },
     addReviewHolder:{
         flexDirection: 'row',
-        justifyContent:'space-between',
+        justifyContent:'space-around',
         borderBottomWidth: 1,
         borderBottomColor: 'black'
     },
@@ -252,8 +252,8 @@ const styles = StyleSheet.create({
         color: 'blue'
     },
     reviewsHolder:{
-        alignItems: 'center'
-        
+        alignItems: 'center',
+        paddingVertical: 5
     },
     indyReview:{
         borderBottomColor: 'black',
@@ -261,6 +261,9 @@ const styles = StyleSheet.create({
         width: '80%',
         alignItems: 'flex-start',
         padding: 10
+    },
+    scrollViewHolder:{
+        height:350
     }
 })
 

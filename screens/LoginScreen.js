@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center'
-
     },
     loginButtonContainer:{
         width: '40%',
@@ -191,12 +190,15 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     loginOptionText:{
-        fontSize: 20,
+        fontSize: 15,
         color: 'white'
     },
     newUserContainer:{
+        paddingTop: 10,
+        width:'60%',
         flexDirection:'row',
-        alignItems: 'baseline'
+        alignItems: 'center',
+        justifyContent:'space-around'
     }
 })
 
