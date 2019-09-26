@@ -13,8 +13,40 @@ class Map extends Component {
         super(props)
     }
   
-
+    calloutPic = (hubId) => {
+        
+        const image = this.props.images.filter(image => {
+                return hubId == image.hub_id
+                }
+            )[0]
+        return image
+    }
     
+    renderMarkers = () => {
+        return this.props.hubs.map(hub => {   
+            const image = this.calloutPic(hub.id) ? this.calloutPic(hub.id) : {image_url: "https://support.hostgator.com/img/articles/weebly_image_sample.png"}
+            console.log(image)
+            return (<Marker
+                coordinate={{latitude: Number(hub.latitude), longitude: Number(hub.longitude)}}
+                title={hub.name}
+                description={hub.description}
+                key={hub.id}
+            >
+                <Callout onPress={() => 
+                this.props.navigation.navigate('HubShow',{
+                id: hub.id,})}>
+                    <Text>{hub.name}</Text>
+                    <Text>{hub.description}</Text>
+                    <Text>{hub.id}</Text>
+                    <Image source={{uri: image.image_url}} style={{width: 200, height: 150}}/>
+
+                    <Text>{this.props.renderStars(hub.rating)}</Text>
+                    <Button title="View More" />
+                        
+                </Callout>
+            </Marker>)
+        })
+    }
 
 
     render() {
@@ -23,27 +55,8 @@ class Map extends Component {
             style={{flex: 1}}
             initialRegion={initialCoords}
             >
-                {this.props.hubs.map(marker => (
-                    <Marker
-                        coordinate={{latitude: Number(marker.latitude), longitude: Number(marker.longitude)}}
-                        title={marker.name}
-                        description={marker.description}
-                        key={marker.id}
-                    >
-                        <Callout onPress={() => 
-                        this.props.navigation.navigate('HubShow',{
-                        id: marker.id,})}>
-                            <Text>{marker.name}</Text>
-                            <Text>{marker.description}</Text>
-                            <Text>{this.props.renderStars(marker.rating)}</Text>
-                            <Button title="View More" />
-                                
-                        </Callout>
-                    </Marker>
-                ))
-                }
+                {this.renderMarkers()}
                 {this.props.renderLocation()}
-                
             </MapView>
         )
     }
@@ -59,7 +72,8 @@ const initialCoords = {
 const mapStateToProps = state => {
     return({
         hubs: state.hubs,
-        reviews: state.reviews
+        reviews: state.reviews,
+        images: state.images
     })
 }
 export default connect(mapStateToProps)(Map)
