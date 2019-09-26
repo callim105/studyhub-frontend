@@ -71,7 +71,7 @@ export default class HubScroll extends Component {
                     <Text style={styles.hubScrollTitle}>Hubs near you...</Text>
                 </View>
                 <ScrollView contentContainerStyle={{ paddingVertical: 5 }}>
-                    {this.fullySortedHubs().map(({ name, rating, id ,description, reviews}) => (
+                    {this.fullySortedHubs().map(({ name, rating, id ,description, reviews, latitude, longitude}) => (
                         <HubCard 
                             key={id} 
                             name={name} 
@@ -81,6 +81,9 @@ export default class HubScroll extends Component {
                             description={description}
                             renderStars={this.props.renderStars} 
                             navigation={this.props.navigation}
+                            hubLatitude={latitude}
+                            hubLongitude={longitude}
+                            userLocation={this.props.location}
                         />
                     ))
                     }

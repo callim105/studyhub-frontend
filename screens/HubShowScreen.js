@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert} from 'react-native'
 import AddReviewModal from '../components/AddReviewModal'
-
+import * as Location from 'expo-location';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import Constants from "expo-constants";
@@ -9,7 +9,7 @@ const { manifest } = Constants;
 const railsImageUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/images`;
 import { SliderBox } from 'react-native-image-slider-box';
 import { AsyncStorage } from 'react-native';
-
+import getDirections from 'react-native-google-maps-directions'
 //Redux
 import { connect } from 'react-redux';
 import { addImage } from '../redux/actions/imageActions';
@@ -24,21 +24,44 @@ class HubShowScreen extends Component {
     constructor(props){
         super(props)
         this.state={
+            isFetching: false,
             modalVisible: false,
             takenImage: null,
             images: [],
             imageUrls: [],
-            currentUser: {}
+            currentUser: {},
+            location:{}
         }
         this.id = this.props.navigation.getParam('id', 'noId')
+        this.currentHub = this.getThisHub()
     }
 
     async componentDidMount(){
         this.props.fetchUser()
+        this.getLocation()
         this.filterHubImages()
         this.setState({currentUser: this.props.user})
     }
 
+    getLocation = async () => {
+        const hasPermission = await this.verifyPermissions()
+        if(!hasPermission){
+            return;
+        }
+
+        try{
+            const location = await Location.getCurrentPositionAsync({timeout: 5000});
+            this.setState({
+                isFetching: true,
+                location:{
+                lat: location.coords.latitude,
+                lng: location.coords.longitude
+            }});
+        } catch(err){
+            Alert.alert('Could not fetch location',)
+        }
+        this.setState({isFetching: false})
+    }
 
     filterHubImages = () => {
         const hubImages = this.props.images.filter(image => {
@@ -106,7 +129,7 @@ class HubShowScreen extends Component {
 
     //Handle Images
     verifyPermissions = async () => {
-        const result = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
+        const result = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL, Permissions.LOCATION);
         if(result.status !== 'granted'){
             Alert.alert(
                 'Insufficient permissions!',
@@ -171,12 +194,35 @@ class HubShowScreen extends Component {
         }
     }
 
+    //Directions
+    handleGetDirections = () => {
+        const data = {
+            source: {
+                latitude: Number(this.state.location.lat),
+                longitude: Number(this.state.location.lng)
+            },
+            destination:{
+                latitude: Number(this.currentHub.latitude),
+                longitude: Number(this.currentHub.longitude)
+            },
+            params:[
+                {
+                  key: "travelmode",
+                  value: "driving"        // may be "walking", "bicycling" or "transit" as well
+                },
+                {
+                  key: "dir_action",
+                  value: "navigate"       // this instantly initializes navigation using the given travel mode
+                }
+            ]
+        }
+        getDirections(data)
+    }
 
     
 
     render() {
-        const currentHub = this.getThisHub()
-       
+    
         return (
             <View styles={styles.screen}>
                 
@@ -194,9 +240,9 @@ class HubShowScreen extends Component {
                     }
                 </View>
                 <View>
-                    <Text style={styles.name}>{currentHub.name}</Text>
+                    <Text style={styles.name}>{this.currentHub.name}</Text>
                     <Text>Rating: {this.renderStars(this.calcRating())} ({this.filterReviews().length} Reviews)</Text>
-                    <Text>Description:{currentHub.description}</Text>
+                    <Text>Description:{this.currentHub.description}</Text>
                     <View style={styles.addReviewHolder}>
                         <TouchableOpacity
                             onPress={()=>{
@@ -214,6 +260,15 @@ class HubShowScreen extends Component {
                         >
                             <Text style={styles.addReviewText}>
                             Add Photo
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={
+                                this.handleGetDirections
+                            }
+                        >
+                            <Text style={styles.addReviewText}>
+                            Get Directions
                             </Text>
                         </TouchableOpacity>
                     </View>
