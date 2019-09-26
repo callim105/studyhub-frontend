@@ -163,7 +163,10 @@ class HubShowScreen extends Component {
                     })
                 })
                 .then(res => res.json())
-                .then(image => this.props.addImage(image))
+                .then(image => {
+                    this.props.addImage(image)
+                    this.filterHubImages()
+                })
             }).catch(err=>console.log(err))
         }
     }
