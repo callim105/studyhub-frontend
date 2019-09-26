@@ -87,7 +87,6 @@ class CreateUser extends Component {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
            this._storeData('jwt', data.jwt)
           
         })

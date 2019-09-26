@@ -40,7 +40,6 @@ export const fetchUser = () => async dispatch => {
     })
         .then(res => res.json())
         .then(user => {
-            console.log('THIS IS A STRING', user)
             dispatch({ type: 'FETCH_USER', user })
         })
         .catch(err => console.error(err))

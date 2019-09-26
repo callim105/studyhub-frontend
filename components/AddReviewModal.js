@@ -30,9 +30,6 @@ class AddReviewModal extends Component {
 
 
     componentDidMount(){
-        // this._retrieveData('user')
-        // .then(user => this.setState({currentUser: user}))
-        // .catch( err => console.log(err))
         this.props.fetchUser()
     }
 
