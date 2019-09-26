@@ -7,16 +7,23 @@ import Constants from "expo-constants";
 const { manifest } = Constants;
 const loginUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/login`;
 
-import { addUser, fetchUser } from '../redux/actions/userActions'
+import { addUser, fetchUser } from '../redux/actions/userActions';
 import { connect } from 'react-redux';
+
+import CreateUserModal from '../components/CreateUserModal';
 
 class LoginScreen extends Component {
     constructor(){
         super()
         this.state = {
             username:'',
-            password:''
+            password:'',
+            modalVisible: false
         }
+    }
+
+    setModalVisible = (visible) => {
+        this.setState({modalVisible: visible})
     }
 
     handleLogin = () => {
@@ -63,6 +70,15 @@ class LoginScreen extends Component {
     render() {
         return (
             <View style={styles.screen}>
+                <CreateUserModal
+                    _storeData = {this._storeData}
+                    modalVisible={this.state.modalVisible} 
+                    setModalVisible={this.setModalVisible}
+                    navigation={this.props.navigation}
+                    
+                />
+
+
                 <Image style={styles.logo}source={require('../assets/images/Study_Hub.png')} />
         
                 <View style={styles.formInputHolder}>
@@ -97,7 +113,11 @@ class LoginScreen extends Component {
                         <Text style={{color:'lightgrey'}}>
                             New user? 
                         </Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={()=>{
+                                this.setModalVisible(true)
+                            }}
+                        >
                             <Text style={styles.loginOptionText}>
                             Sign up
                             </Text>

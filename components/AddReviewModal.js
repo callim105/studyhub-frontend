@@ -13,12 +13,13 @@ import {
 
 import { connect } from 'react-redux';
 import { addReview } from '../redux/actions/reviewActions';
+import { fetchUser } from '../redux/actions/userActions'
 
 class AddReviewModal extends Component {
     constructor(props){
         super(props)
         this.state = {
-            currentUser: {},
+            currentUser: this.props.user,
             hubId: this.props.hubId,
             content: "",
             rating: 3
@@ -27,26 +28,12 @@ class AddReviewModal extends Component {
 
     //Passed HubId in as props
 
-    _retrieveData = async (key) => {
-        try {
-          const value = await AsyncStorage.getItem(key);
-          if (value !== null) {
-            // We have data!!
-            const parsed = JSON.parse(value)
-            return parsed
-          } else {
-            console.log(value)
-          }
-        } catch (error) {
-          // Error retrieving data
-        }
-    };
 
     componentDidMount(){
-        this._retrieveData('user')
-        .then(user => this.setState({currentUser: user}))
-        .catch( err => console.log(err))
-        
+        // this._retrieveData('user')
+        // .then(user => this.setState({currentUser: user}))
+        // .catch( err => console.log(err))
+        this.props.fetchUser()
     }
 
    
@@ -100,13 +87,7 @@ class AddReviewModal extends Component {
                                 Submit Review
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => console.log(this.state)}
-                        >
-                            <Text>
-                                Console Log
-                            </Text>
-                        </TouchableOpacity>
+                        
                         <TouchableOpacity
                             onPress={() => {
                             this.props.setModalVisible(!this.props.modalVisible);
@@ -134,6 +115,13 @@ const styles = StyleSheet.create({
     }
 })
 
+const mapStateToProps = (state) => {
+    return ({
+        user: state.user,
+        reviews: state.reviews,
+        images: state.images
+    })
+}
 
 
-export default connect(null, { addReview })(AddReviewModal);
+export default connect(mapStateToProps, { addReview, fetchUser })(AddReviewModal);
