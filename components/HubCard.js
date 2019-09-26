@@ -4,7 +4,7 @@ import { Card } from 'react-native-elements'
 
 export default function HubCard(props){
 
-    const {id, name, rating} = props
+    const {id, name, rating, reviews} = props
     
     
     return (
@@ -13,7 +13,7 @@ export default function HubCard(props){
                 {name}
             </Text>
             <Text>
-                Rating: {props.renderStars(rating)}
+                Rating: {props.renderStars(rating)}({reviews.length} reviews)
             </Text>
             <Button
                 title="View More"

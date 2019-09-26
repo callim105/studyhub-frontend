@@ -79,6 +79,7 @@ class HomeScreen extends React.Component{
             Alert.alert('Could not fetch location',)
         }
         this.setState({isFetching: false})
+        
     }
 
     renderLocation = () => {
@@ -100,7 +101,6 @@ class HomeScreen extends React.Component{
             const value = await AsyncStorage.getItem(key);
             if (value !== null) {
               // We have data!!
-              console.log(value)
               return value
             }
         } catch (error) {
@@ -155,6 +155,7 @@ class HomeScreen extends React.Component{
                     hubs={this.props.hubs} 
                     renderStars={this.renderStars}
                     navigation={this.props.navigation}
+                    location={this.state.location}
                 />
             </View>
           );

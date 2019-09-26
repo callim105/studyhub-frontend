@@ -108,7 +108,7 @@ class Profile extends Component {
 
 
     render() {
-       console.log("PROFILE", this.props.user)
+     
         return (
             <View>
                 <View style={styles.avatarHolder}>

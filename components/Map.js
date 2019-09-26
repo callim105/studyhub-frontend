@@ -25,7 +25,7 @@ class Map extends Component {
     renderMarkers = () => {
         return this.props.hubs.map(hub => {   
             const image = this.calloutPic(hub.id) ? this.calloutPic(hub.id) : {image_url: "https://support.hostgator.com/img/articles/weebly_image_sample.png"}
-            console.log(image)
+            
             return (<Marker
                 coordinate={{latitude: Number(hub.latitude), longitude: Number(hub.longitude)}}
                 title={hub.name}
