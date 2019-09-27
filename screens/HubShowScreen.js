@@ -8,7 +8,6 @@ import Constants from "expo-constants";
 const { manifest } = Constants;
 const railsImageUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/images`;
 import { SliderBox } from 'react-native-image-slider-box';
-import { AsyncStorage } from 'react-native';
 import getDirections from 'react-native-google-maps-directions'
 //Redux
 import { connect } from 'react-redux';

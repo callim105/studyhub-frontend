@@ -33,6 +33,11 @@ import { fetchHubs } from '../redux/actions/hubActions'
 import { fetchReviews } from '../redux/actions/reviewActions'
 import {fetchImages} from '../redux/actions/imageActions'
 import { fetchUser } from '../redux/actions/userActions'
+import BottomDrawer from 'rn-bottom-drawer';
+
+
+
+
 
 class HomeScreen extends React.Component{
     constructor(props){
@@ -145,18 +150,26 @@ class HomeScreen extends React.Component{
         return (
             <View style={styles.container}>
                 <Map 
-                    
+                    userLocation = {this.state.location}
                     renderStars={this.renderStars}
                     renderLocation={this.renderLocation}
                     navigation={this.props.navigation}
                 />
-                <HubScroll 
-                    isLoading={this.state.isLoading} 
-                    hubs={this.props.hubs} 
-                    renderStars={this.renderStars}
-                    navigation={this.props.navigation}
-                    location={this.state.location}
-                />
+                <BottomDrawer
+                        containerHeight={700}
+                        offset={20}
+                        startUp={true}
+                        roundedEdges={true}
+                        shadow={true}
+                >
+                    <HubScroll 
+                        isLoading={this.state.isLoading} 
+                        hubs={this.props.hubs} 
+                        renderStars={this.renderStars}
+                        navigation={this.props.navigation}
+                        location={this.state.location}
+                    />
+                </BottomDrawer>
             </View>
           );
     }
