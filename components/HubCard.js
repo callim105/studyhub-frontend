@@ -1,8 +1,11 @@
 import React from 'react';
-import { Text, Button, } from 'react-native';
+import { View, Text, Button, Image, StyleSheet } from 'react-native';
 import { Card } from 'react-native-elements'
 import getDirections from 'react-native-google-maps-directions'
-export default function HubCard(props){
+import { connect } from 'react-redux'
+
+
+const HubCard = (props) => {
 
     const {id, name, rating, reviews, userLocation, hubLatitude, hubLongitude} = props
     
@@ -30,29 +33,60 @@ export default function HubCard(props){
         getDirections(data)
     }
 
+    showFirstImage = () => {
+        const image = props.images.filter(image => id == image.hub_id)[0]
+        return image
+    }
 
+    const showImage = showFirstImage() ? showFirstImage() : {image_url: "https://support.hostgator.com/img/articles/weebly_image_sample.png"}
 
     return (
-        <Card>
-            <Text style={{ marginBottom: 10 }}>
-                {name}
-            </Text>
-            <Text>
-                Rating: {props.renderStars(rating)}({reviews.length} reviews)
-            </Text>
-            <Button
-                title="View More"
-                
-                onPress={()=>{props.navigation.navigate('HubShow',{
-                    id: id,
-                })}}
-            />
-            <Button
-                title="Get Directions"
-                
-                onPress={this.handleGetDirections}
-            />
-        </Card>
+        
+            <Card>
+                <Image source={{uri: showImage.image_url}} style={{height: 100, width: 300}}/>
+                <View style={styles.header}>
+                    <Text style={styles.cardTitle}>
+                        {name}
+                    </Text>
+                    <Text>
+                        Rating: {props.renderStars(rating)}({reviews.length} reviews)
+                    </Text>
+                </View>
+
+                <Button
+                    title="View More"
+                    
+                    onPress={()=>{props.navigation.navigate('HubShow',{
+                        id: id,
+                    })}}
+                />
+                <Button
+                    title="Get Directions"
+                    
+                    onPress={this.handleGetDirections}
+                />
+            </Card>
         
     )
 }
+
+const styles = StyleSheet.create({
+    header:{
+        alignItems:'center'
+    },
+    cardTitle:{
+        fontSize: 15,
+    },
+})
+
+
+
+
+const mapStateToProps = (state) => {
+    return({
+        images: state.images,
+        hubs: state.hubs
+    })
+}
+
+export default connect(mapStateToProps)(HubCard)
