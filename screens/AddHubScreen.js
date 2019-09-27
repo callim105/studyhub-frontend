@@ -99,27 +99,29 @@ class AddHubScreen extends Component{
                         shadow={true}
                     >
                         <View style={styles.addFormContainer}>
-                                <View>
+                                <View style={{width:'100%'}}>
                                     <View style={{alignItems:'center', float:'center'}}>
                                     <MaterialIcons name="drag-handle" size={20} color="black" />
                                     </View>
-                                    <Text style={{
-                                        paddingLeft: 20,
-                                        paddingVertical: 10,
-                                        fontSize: 20}}
-                                    >
-                                        Add a New Hub!
-                                    </Text>
+                                    <View style={styles.addHubTitle}>
+                                        <Text style={{
+                                            paddingLeft: 20,
+                                            paddingVertical: 10,
+                                            fontSize: 20}}
+                                        >
+                                            Add a New Hub!
+                                        </Text>
+                                    </View>
                                 </View>
                                 <View style={styles.formContainer}>
-                                    <Text>Name: </Text>
+                                    <Text style={styles.formTitles}>Name: </Text>
                                     <TextInput 
                                         style={styles.formInput} 
                                         onChangeText={name => this.setState({hubName: name})}
                                         value={this.state.hubName}
                                     
                                     />
-                                    <Text>Description: (Add a short description of the hub!)</Text>
+                                    <Text style={styles.formTitles}>Description: (Add a short description of the hub!)</Text>
                                     <TextInput 
                                         style={styles.description} 
                                         multiline={true}
@@ -133,7 +135,7 @@ class AddHubScreen extends Component{
                                     <Text>Longitude:{this.state.addLocation.lng}</Text>
 
 
-                                    <Text>Wifi: </Text>
+                                    <Text style={styles.formTitles}>Wifi: </Text>
                                     <TouchableOpacity
                                     style={styles.circle}
                                     onPress={() => {
@@ -146,7 +148,7 @@ class AddHubScreen extends Component{
                                     </TouchableOpacity>
                                     
 
-                                    <Text>Restrooms</Text>
+                                    <Text style={styles.formTitles}>Restrooms</Text>
                                     <TouchableOpacity
                                     style={styles.circle}
                                     onPress={() => {
@@ -158,7 +160,7 @@ class AddHubScreen extends Component{
                                     {this.state.hubRestrooms && <View style={styles.checkedCircle} />}
                                     </TouchableOpacity>
 
-                                    <Text>Noise Level</Text>
+                                    <Text style={styles.formTitles}>Noise Level</Text>
                                     <NoiseRadioButtons options={options} setNoiseLevel={this.setNoiseLevel}/>
 
                                     <Button title="Submit Hub" onPress={this.handleHubSubmit}/>
@@ -214,13 +216,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     addFormContainer:{
-        
+        alignItems:'center',
+        width: '100%'
     },
     formInput:{
         width: "80%",
         height: 30,
-        borderWidth: 1,
-        borderColor: 'black'
+        borderBottomWidth: 1,
+        borderColor: 'black',
+        marginBottom: 10
     },
     circle: {
 		height: 20,
@@ -243,7 +247,17 @@ const styles = StyleSheet.create({
         borderColor: 'black'
     },
     formContainer:{
-        width: '80%'
+        width: '80%',
+        marginTop: 10
+    },
+    addHubTitle:{
+        alignItems: 'flex-start',
+        borderBottomWidth: 1,
+        borderColor: 'black',
+        width: '100%',
+    },
+    formTitles:{
+        fontSize: 20
     }
 });
 
