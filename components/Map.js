@@ -11,8 +11,11 @@ import { connect } from 'react-redux'
 class Map extends Component {
     constructor(props){
         super(props)
+        
+        
+        
     }
-  
+
     calloutPic = (hubId) => {
         
         const image = this.props.images.filter(image => {
@@ -63,11 +66,12 @@ class Map extends Component {
 }
 
 const initialCoords = {
-    latitude: 41.8781,
-    longitude: -87.6298,
+    latitude: 41.8915382,
+    longitude: -87.6276310,
     latitudeDelta: 0.0022,
     longitudeDelta: 0.0821,
 }
+
 
 const mapStateToProps = state => {
     return({

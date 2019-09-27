@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity, Button, AsyncStorage, Alert } from 'react-native';
+import { 
+    View, 
+    Text, 
+    ScrollView, 
+    StyleSheet, 
+    TextInput, 
+    TouchableOpacity, 
+    Button, 
+    Alert, 
+    TouchableWithoutFeedback,
+    Keyboard
+} from 'react-native';
 
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import NoiseRadioButtons from '../components/NoiseRadioButtons'
-//Import location component
-//URL for fetch post
-//Importan updates? not really... delete this comment later
-import Constants from "expo-constants";
-const { manifest } = Constants;
-const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
 
 //redux stuff
 import { connect } from 'react-redux';
 import { addHub } from '../redux/actions/hubActions'
+import BottomDrawer from 'rn-bottom-drawer';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import { NavigationActions } from 'react-navigation'
 
 class AddHubScreen extends Component{
     constructor(){
@@ -67,78 +73,101 @@ class AddHubScreen extends Component{
     render(){
         
             return(
+                
                 <View style={styles.container}>
-                    <MapView
-                        style={{ flex: 1 }}
-                        initialRegion={initialCoords}
-                    >
-                        <Marker
-                        coordinate={{latitude: this.state.location.lat, 
-                        longitude: this.state.location.lng}}
-                        title="Place on Hub"
-                        draggable
-                        onDragEnd={this.addHubLocation}
+                   
+                        <MapView
+                            style={{ flex: 1 }}
+                            initialRegion={initialCoords}
                         >
+                            <Marker
+                            coordinate={{latitude: this.state.location.lat, 
+                            longitude: this.state.location.lng}}
+                            title="Place on Hub"
+                            draggable
+                            onDragEnd={this.addHubLocation}
+                            >
 
-                        </Marker>
-                    </MapView>
-                    <ScrollView style={styles.addFormContainer}>
-                            <Text>Add a New Hub!</Text>
-                            <View>
-                                <Text>Name: </Text>
-                                <TextInput 
-                                    style={styles.formInput} 
-                                    onChangeText={name => this.setState({hubName: name})}
-                                    value={this.state.hubName}
+                            </Marker>
+                        </MapView>  
+                    
+                    <BottomDrawer
+                        containerHeight={600}
+                        offset={100}
+                        startUp={false}
+                        roundedEdges={true}
+                        shadow={true}
+                    >
+                        <View style={styles.addFormContainer}>
+                                <View>
+                                    <View style={{alignItems:'center', float:'center'}}>
+                                    <MaterialIcons name="drag-handle" size={20} color="black" />
+                                    </View>
+                                    <Text style={{
+                                        paddingLeft: 20,
+                                        paddingVertical: 10,
+                                        fontSize: 20}}
+                                    >
+                                        Add a New Hub!
+                                    </Text>
+                                </View>
+                                <View style={styles.formContainer}>
+                                    <Text>Name: </Text>
+                                    <TextInput 
+                                        style={styles.formInput} 
+                                        onChangeText={name => this.setState({hubName: name})}
+                                        value={this.state.hubName}
+                                    
+                                    />
+                                    <Text>Description: (Add a short description of the hub!)</Text>
+                                    <TextInput 
+                                        style={styles.description} 
+                                        multiline={true}
+                                        autoCapitalize="sentences"
+                                        onChangeText={text => this.setState({hubDescription: text})}
+                                        value={this.state.hubDescription}
+                                        blurOnSubmit={true}
+                                    />
+
+                                    <Text>Latitude:{this.state.addLocation.lat}</Text>
+                                    <Text>Longitude:{this.state.addLocation.lng}</Text>
+
+
+                                    <Text>Wifi: </Text>
+                                    <TouchableOpacity
+                                    style={styles.circle}
+                                    onPress={() => {
+                                        this.setState((prevState) => ({
+                                            hubWifi: !prevState.hubWifi,
+                                        }));
+                                    }}
+                                    >
+                                    {this.state.hubWifi && <View style={styles.checkedCircle} />}
+                                    </TouchableOpacity>
+                                    
+
+                                    <Text>Restrooms</Text>
+                                    <TouchableOpacity
+                                    style={styles.circle}
+                                    onPress={() => {
+                                        this.setState((prevState) => ({
+                                        hubRestrooms: !prevState.hubRestrooms,
+                                        }));
+                                    }}
+                                    >
+                                    {this.state.hubRestrooms && <View style={styles.checkedCircle} />}
+                                    </TouchableOpacity>
+
+                                    <Text>Noise Level</Text>
+                                    <NoiseRadioButtons options={options} setNoiseLevel={this.setNoiseLevel}/>
+
+                                    <Button title="Submit Hub" onPress={this.handleHubSubmit}/>
+                                    
+                                </View>
                                 
-                                />
-                                <Text>Description: (Add a short description of the hub!)</Text>
-                                <TextInput 
-                                    style={styles.description} 
-                                    multiline={true}
-                                    autoCapitalize="sentences"
-                                    onChangeText={text => this.setState({hubDescription: text})}
-                                    value={this.state.hubDescription}
-                                />
-
-                                <Text>Latitude:{this.state.addLocation.lat}</Text>
-                                <Text>Longitude:{this.state.addLocation.lng}</Text>
-
-
-                                <Text>Wifi: </Text>
-                                <TouchableOpacity
-                                style={styles.circle}
-                                onPress={() => {
-                                    this.setState((prevState) => ({
-                                        hubWifi: !prevState.hubWifi,
-                                    }));
-                                }}
-                                >
-                                {this.state.hubWifi && <View style={styles.checkedCircle} />}
-                                </TouchableOpacity>
-                                
-
-                                <Text>Restrooms</Text>
-                                <TouchableOpacity
-                                style={styles.circle}
-                                onPress={() => {
-                                    this.setState((prevState) => ({
-                                       hubRestrooms: !prevState.hubRestrooms,
-                                    }));
-                                }}
-                                >
-                                {this.state.hubRestrooms && <View style={styles.checkedCircle} />}
-                                </TouchableOpacity>
-
-                                <Text>Noise Level</Text>
-                                <NoiseRadioButtons options={options} setNoiseLevel={this.setNoiseLevel}/>
-
-                                <Button title="Submit Hub" onPress={this.handleHubSubmit}/>
-                                
-                            </View>
-                    </ScrollView>
-
-                </View> 
+                        </View>
+                    </BottomDrawer>
+                </View>
             )
         }
     
@@ -185,7 +214,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     addFormContainer:{
-        height: 200,
+        
     },
     formInput:{
         width: "80%",
@@ -212,7 +241,14 @@ const styles = StyleSheet.create({
         height: 70,
         borderWidth: 1,
         borderColor: 'black'
+    },
+    formContainer:{
+        width: '80%'
     }
 });
 
 export default connect(null, { addHub })(AddHubScreen);
+
+
+
+ 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, Image, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { Card } from 'react-native-elements'
 import getDirections from 'react-native-google-maps-directions'
 import { connect } from 'react-redux'
@@ -42,8 +42,11 @@ const HubCard = (props) => {
 
     return (
         
-            <Card>
-                <Image source={{uri: showImage.image_url}} style={{height: 100, width: 300}}/>
+            <Card
+                image={{uri: showImage.image_url}}
+                imageWrapperStyle={{borderRadius: 20, overflow: 'hidden'}}
+                containerStyle={{borderRadius: 20}}
+            >
                 <View style={styles.header}>
                     <Text style={styles.cardTitle}>
                         {name}
@@ -53,18 +56,20 @@ const HubCard = (props) => {
                     </Text>
                 </View>
 
-                <Button
-                    title="View More"
-                    
+                <TouchableOpacity 
+                    style={styles.viewMoreButton}
                     onPress={()=>{props.navigation.navigate('HubShow',{
                         id: id,
                     })}}
-                />
-                <Button
-                    title="Get Directions"
-                    
+                >
+                    <Text>View More</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.getDirectionsButton}
                     onPress={this.handleGetDirections}
-                />
+                >
+                    <Text>Get Directions</Text>
+                </TouchableOpacity>
             </Card>
         
     )
@@ -72,11 +77,21 @@ const HubCard = (props) => {
 
 const styles = StyleSheet.create({
     header:{
-        alignItems:'center'
+        alignItems:'flex-start'
     },
     cardTitle:{
-        fontSize: 15,
+        fontSize: 25,
     },
+    cardImage:{
+        width: '100%',
+        height: 100
+    },
+    viewMoreButton:{
+
+    },
+    getDirectionsButton:{
+
+    }
 })
 
 

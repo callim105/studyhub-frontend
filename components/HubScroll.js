@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import { View, Text, ScrollView, Button, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Button, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-elements'
-
+import BottomDrawer from 'rn-bottom-drawer';
 import Constants from "expo-constants";
 const { manifest } = Constants;
 const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/hubs`;
 // const uri = 'http://10.198.66.194:3000/hubs'
 import HubCard from './HubCard'
-
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default class HubScroll extends Component {
     constructor(props) {
@@ -68,9 +68,14 @@ export default class HubScroll extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <View style={styles.hubTitleContainer}>
+                    <View style={{alignItems:'center', float:'center'}}>
+                        <MaterialIcons name="drag-handle" size={20} color="black" />
+                    </View>
                     <Text style={styles.hubScrollTitle}>Hubs near you...</Text>
                 </View>
+                
                 <ScrollView contentContainerStyle={{ paddingVertical: 5 }}>
+                    <TouchableOpacity activeOpacity={1}>
                     {this.fullySortedHubs().map(({ name, rating, id ,description, reviews, latitude, longitude}) => (
                         <HubCard 
                             key={id} 
@@ -87,6 +92,7 @@ export default class HubScroll extends Component {
                         />
                     ))
                     }
+                    </TouchableOpacity>
                 </ScrollView>
             </View>
 
