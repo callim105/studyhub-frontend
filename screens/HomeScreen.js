@@ -156,7 +156,7 @@ class HomeScreen extends React.Component{
                     navigation={this.props.navigation}
                 />
                 <BottomDrawer
-                        containerHeight={700}
+                        containerHeight={750}
                         offset={20}
                         startUp={true}
                         roundedEdges={true}

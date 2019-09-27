@@ -11,7 +11,7 @@ export default class NoiseRadioButtons extends Component {
 		const { value } = this.state;
 
 		return (
-			<View>
+			<View style={{flexDirection:'row', justifyContent: 'space-around'}}>
 				{options.map(item => {
 					return (
 						<View key={item.key} style={styles.buttonContainer}>
@@ -35,9 +35,11 @@ export default class NoiseRadioButtons extends Component {
 	}
 }
 
+
+//NEED VALIDATIONS FOR HUB SUBMIT
+
 const styles = StyleSheet.create({
 	buttonContainer: {
-		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	
