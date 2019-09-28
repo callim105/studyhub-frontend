@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 import { addHub } from '../redux/actions/hubActions'
 import BottomDrawer from 'rn-bottom-drawer';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import COLORS from '../constants/Colors'
 
 class AddHubScreen extends Component{
     constructor(){
@@ -39,20 +39,24 @@ class AddHubScreen extends Component{
             hubWifi: false,
             hubDescription: '',
             hubRestrooms: false,
-            hubNoise: null,
+            hubNoise: 'low',
         };
     }
 
     handleHubSubmit = () => {
-        this.props.addHub(this.state)
-        Alert.alert('Hub Added!')
-        this.setState({
-            hubName: '',
-            hubWifi: false,
-            hubDescription: '',
-            hubRestrooms: false,
-            hubNoise: null,
-        })
+        if(this.state.hubName && this.state.hubNoise){
+            this.props.addHub(this.state)
+            Alert.alert('Hub Added!')
+            this.setState({
+                hubName: '',
+                hubWifi: false,
+                hubDescription: '',
+                hubRestrooms: false,
+                hubNoise: 'low',
+            })
+        } else {
+            Alert.alert('Please fill out the form!')
+        }
         
     }
 
@@ -107,7 +111,8 @@ class AddHubScreen extends Component{
                                         <Text style={{
                                             paddingLeft: 20,
                                             paddingVertical: 10,
-                                            fontSize: 20}}
+                                            fontSize: 20,
+                                            color:'black'}}
                                         >
                                             Add a New Hub!
                                         </Text>
@@ -130,41 +135,50 @@ class AddHubScreen extends Component{
                                         value={this.state.hubDescription}
                                         blurOnSubmit={true}
                                     />
-
-                                    <Text>Latitude:{this.state.addLocation.lat}</Text>
-                                    <Text>Longitude:{this.state.addLocation.lng}</Text>
-
-
-                                    <Text style={styles.formTitles}>Wifi: </Text>
-                                    <TouchableOpacity
-                                    style={styles.circle}
-                                    onPress={() => {
-                                        this.setState((prevState) => ({
-                                            hubWifi: !prevState.hubWifi,
-                                        }));
-                                    }}
-                                    >
-                                    {this.state.hubWifi && <View style={styles.checkedCircle} />}
-                                    </TouchableOpacity>
                                     
+                                    {/* <Text>Latitude:{this.state.addLocation.lat}</Text>
+                                    <Text>Longitude:{this.state.addLocation.lng}</Text> */}
 
-                                    <Text style={styles.formTitles}>Restrooms</Text>
-                                    <TouchableOpacity
-                                    style={styles.circle}
-                                    onPress={() => {
-                                        this.setState((prevState) => ({
-                                        hubRestrooms: !prevState.hubRestrooms,
-                                        }));
-                                    }}
-                                    >
-                                    {this.state.hubRestrooms && <View style={styles.checkedCircle} />}
+                                    <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+                                        <View style={{alignItems:'center'}}>
+                                            <Text style={styles.formTitles}>Wifi: </Text>
+                                            <TouchableOpacity
+                                            style={styles.circle}
+                                            onPress={() => {
+                                                this.setState((prevState) => ({
+                                                    hubWifi: !prevState.hubWifi,
+                                                }));
+                                            }}
+                                            >
+                                            {this.state.hubWifi && <View style={styles.checkedCircle} />}
+                                            </TouchableOpacity>
+                                        </View>
+                                        
+                                        <View style={{alignItems:'center'}}>
+                                            <Text style={styles.formTitles}>Restrooms</Text>
+                                            <TouchableOpacity
+                                            style={styles.circle}
+                                            onPress={() => {
+                                                this.setState((prevState) => ({
+                                                hubRestrooms: !prevState.hubRestrooms,
+                                                }));
+                                            }}
+                                            >
+                                            {this.state.hubRestrooms && <View style={styles.checkedCircle} />}
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                    <View style={{paddingBottom: 10}}>
+
+                                        <Text style={styles.formTitles}>Noise Level</Text>
+                                        <NoiseRadioButtons options={options} setNoiseLevel={this.setNoiseLevel}/>
+                                        <Text>Drag the pin to your new Hub!</Text>
+                                    </View>
+
+                                    <TouchableOpacity style={styles.createButton} onPress={this.handleHubSubmit}>
+                                        <Text style={{fontSize: 20, color:'white'}}>Submit Hub</Text>
                                     </TouchableOpacity>
 
-                                    <Text style={styles.formTitles}>Noise Level</Text>
-                                    <NoiseRadioButtons options={options} setNoiseLevel={this.setNoiseLevel}/>
-
-                                    <Button title="Submit Hub" onPress={this.handleHubSubmit}/>
-                                    
                                 </View>
                                 
                         </View>
@@ -258,6 +272,14 @@ const styles = StyleSheet.create({
     },
     formTitles:{
         fontSize: 20
+    },
+    createButton:{
+        backgroundColor: '#1675AA',
+        width: "100%",
+        height: 40,
+        borderRadius: 4,
+        justifyContent:"center",
+        alignItems: 'center',
     }
 });
 
