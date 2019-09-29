@@ -10,9 +10,7 @@ import { connect } from 'react-redux'
 
 class Map extends Component {
     constructor(props){
-        super(props)
-        
-        
+        super(props)        
         
     }
 
@@ -57,6 +55,8 @@ class Map extends Component {
             <MapView 
             style={{flex: 1}}
             initialRegion={initialCoords}
+            region={this.props.region}
+            onRegionChange={this.props.onRegionChange}
             >
                 {this.renderMarkers()}
                 {this.props.renderLocation()}
