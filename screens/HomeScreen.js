@@ -49,6 +49,12 @@ class HomeScreen extends React.Component{
                 lng:-86.6298
             },
             isFetchingLocation: false,
+            region:{
+                latitude: 42.8781,
+                longitude: -86.6298,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }
         }
     }
 
@@ -98,6 +104,10 @@ class HomeScreen extends React.Component{
                          <Image source={require('../assets/images/blue_person.png')} style={{height: 20, width: 20 }} />
                      </Marker>
                      : null 
+    }
+
+    onRegionChange = (region) => {
+        this.setState({ region });
     }
 
     //Try to get this token
@@ -154,6 +164,8 @@ class HomeScreen extends React.Component{
                     renderStars={this.renderStars}
                     renderLocation={this.renderLocation}
                     navigation={this.props.navigation}
+                    region={this.state.region}
+                    onRegionChange={this.onRegionChange}
                 />
                 <BottomDrawer
                         containerHeight={750}
