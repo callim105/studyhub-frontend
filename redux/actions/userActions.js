@@ -2,6 +2,8 @@ import Constants from "expo-constants";
 const { manifest } = Constants;
 const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/profile`;
 import { AsyncStorage } from 'react-native';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 //To get token from async
 const _retrieveData = async (key) => {
@@ -69,3 +71,36 @@ export function loginUser() {
 export function addProfileToUser(user) {
     return dispatch => dispatch({ type: 'ADD_PROFILE_PHOTO', user })
 }
+
+
+
+//User Location
+verifyPermissions = async () => {
+    const result = await Permissions.askAsync(Permissions.LOCATION);
+    if(result.status !== 'granted'){
+        Alert.alert(
+            'Insufficient permissions!',
+            'You need to grant location permissions to use this app.',
+            [{text: 'okay'}]
+        );
+        return false;
+    }
+    return true;
+};
+
+export const currentLocation = () => async dispatch => {
+
+    const hasPermission = await this.verifyPermissions()
+    if(!hasPermission){
+        return;
+    }
+
+    try{
+        const location = await Location.getCurrentPositionAsync({timeout: 5000});
+        dispatch({type:"GET_USER_LOCATION", location})
+    } catch(err){
+        Alert.alert('Could not fetch location',)
+    }
+        
+}
+    

@@ -32,7 +32,7 @@ import { connect } from 'react-redux'
 import { fetchHubs } from '../redux/actions/hubActions'
 import { fetchReviews } from '../redux/actions/reviewActions'
 import {fetchImages} from '../redux/actions/imageActions'
-import { fetchUser } from '../redux/actions/userActions'
+import { fetchUser, currentLocation } from '../redux/actions/userActions'
 import BottomDrawer from 'rn-bottom-drawer';
 
 
@@ -49,6 +49,7 @@ class HomeScreen extends React.Component{
                 lng:-86.6298
             },
             isFetchingLocation: false,
+
         }
     }
 
@@ -147,7 +148,7 @@ class HomeScreen extends React.Component{
                 </View>
             )
         }
-        
+        console.log(this.props.user)
         return (
             <View style={styles.container}>
                 <Map 
@@ -210,4 +211,4 @@ const mapStateToProps = state => {
      }
 }
 
-export default connect(mapStateToProps, { fetchHubs, fetchReviews, fetchImages, fetchUser })(HomeScreen);
+export default connect(mapStateToProps, { fetchHubs, fetchReviews, fetchImages, fetchUser , currentLocation})(HomeScreen);

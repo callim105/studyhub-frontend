@@ -19,6 +19,7 @@ import NoiseRadioButtons from '../components/NoiseRadioButtons'
 //redux stuff
 import { connect } from 'react-redux';
 import { addHub } from '../redux/actions/hubActions'
+import { currentLocation } from '../redux/actions/userActions'
 import BottomDrawer from 'rn-bottom-drawer';
 import { MaterialIcons } from '@expo/vector-icons';
 import COLORS from '../constants/Colors'
@@ -42,6 +43,20 @@ class AddHubScreen extends Component{
             hubNoise: 'low',
         };
     }
+
+    componentDidMount(){
+        this.props.currentLocation()
+    }
+
+    // componentWillReceiveProps(){
+    //     this.setState({
+    //         location:{
+    //             lat: this.props.user.location.coords.latitude,
+    //             lng: this.props.user.location.coords.longitude
+    //         }
+    //     })
+    // }
+   
 
     handleHubSubmit = () => {
         if(this.state.hubName && this.state.hubNoise){
@@ -74,27 +89,62 @@ class AddHubScreen extends Component{
         this.setState({hubNoise: level})
     }
 
+    renderMapView = () => {
+        if(this.props.user.location){
+           
+            let latitude = this.props.user.location.coords.latitude
+            let longitude = this.props.user.location.coords.longitude
+            
+            return(
+                <MapView
+                    style={{ flex: 1 }}
+                    region={{latitude: latitude,
+                        longitude: longitude,
+                        latitudeDelta: 0.04,
+                        longitudeDelta: 0.04,}}
+                >
+                    <Marker
+                    coordinate={{latitude: latitude, 
+                    longitude: longitude}}
+                    title="Place on Hub"
+                    draggable
+                    onDragEnd={this.addHubLocation}
+                    >
+
+                    </Marker>
+                </MapView>  
+            )
+        } else {
+            return(
+                <MapView
+                    style={{ flex: 1 }}
+                    region={{latitude: this.state.location.lat,
+                        longitude: this.state.location.lng,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,}}
+                >
+                    <Marker
+                    coordinate={{latitude: this.state.location.lat, 
+                    longitude: this.state.location.lng}}
+                    title="Place on Hub"
+                    draggable
+                    onDragEnd={this.addHubLocation}
+                    >
+
+                    </Marker>
+                </MapView>  
+            )
+        }
+    }
+
     render(){
-        
             return(
                 
                 <View style={styles.container}>
                    
-                        <MapView
-                            style={{ flex: 1 }}
-                            initialRegion={initialCoords}
-                        >
-                            <Marker
-                            coordinate={{latitude: this.state.location.lat, 
-                            longitude: this.state.location.lng}}
-                            title="Place on Hub"
-                            draggable
-                            onDragEnd={this.addHubLocation}
-                            >
-
-                            </Marker>
-                        </MapView>  
-                    
+                   {this.renderMapView()}
+                 
+                       
                     <BottomDrawer
                         containerHeight={600}
                         offset={100}
@@ -136,8 +186,7 @@ class AddHubScreen extends Component{
                                         blurOnSubmit={true}
                                     />
                                     
-                                    {/* <Text>Latitude:{this.state.addLocation.lat}</Text>
-                                    <Text>Longitude:{this.state.addLocation.lng}</Text> */}
+                                
 
                                     <View style={{flexDirection:'row', justifyContent:'space-around'}}>
                                         <View style={{alignItems:'center'}}>
@@ -283,7 +332,13 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(null, { addHub })(AddHubScreen);
+
+const mapStateToProps = (state)=>{
+    return ({
+        user: state.user
+    })
+}
+export default connect(mapStateToProps, { addHub, currentLocation })(AddHubScreen);
 
 
 
