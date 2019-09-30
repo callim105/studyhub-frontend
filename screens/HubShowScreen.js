@@ -9,14 +9,15 @@ const { manifest } = Constants;
 const railsImageUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/images`;
 import { SliderBox } from 'react-native-image-slider-box';
 import getDirections from 'react-native-google-maps-directions'
+import Review from '../components/Review';
 //Redux
 import { connect } from 'react-redux';
 import { addImage } from '../redux/actions/imageActions';
 import { fetchUser } from '../redux/actions/userActions';
 //Cloudinary api
-const cloudKey = "238271533983158"
-const cloudName = 'callimx'
 
+const cloudName = 'callimx'
+import _ from 'lodash'
 
 
 class HubShowScreen extends Component {
@@ -108,17 +109,14 @@ class HubShowScreen extends Component {
     }
 
     filterReviews = () => {
-        return this.props.reviews.filter(review =>{
+        return _.reverse(this.props.reviews.filter(review =>{
             return review.hub.id == this.id
-        })
+        }))
     }
 
     renderReviews = () => {
         return this.filterReviews().map(review => (
-            <View key={review.id} style={styles.indyReview}>
-                <Text style={{color: 'grey', fontSize: 15}}>User: {review.user.username} says...</Text>
-                <Text>{review.content}</Text>
-            </View>
+            <Review review={review} key={review.id}/>
         ))
     }
 
