@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, TouchableOpacity, Alert } from 'react-native';
 import { AsyncStorage } from 'react-native';
 
 import Colors from '../constants/Colors'
@@ -28,6 +28,7 @@ class LoginScreen extends Component {
 
     handleLogin = () => {
         this.fetchLogin()
+        
     }
 
     _storeData = async (key, value) => {
@@ -56,12 +57,14 @@ class LoginScreen extends Component {
         })
         .then(res => res.json())
         .then(data => {
-           this._storeData('jwt', data.jwt)
-          
-        })
-        .then(() => {
-            
+           if(data.message){
+               Alert.alert('Incorrect Username or Password!')
+               return;
+           }else{
+
+            this._storeData('jwt', data.jwt)
             this.props.navigation.navigate('Main')
+           }
         })
         .catch(err => console.log(err))
     }

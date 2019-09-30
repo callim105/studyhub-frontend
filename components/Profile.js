@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
         padding: 10
     },
     reviewsHolder:{
-        height: 300,
+        height: 200,
         width: '100%',
         alignItems:'center',
     },
