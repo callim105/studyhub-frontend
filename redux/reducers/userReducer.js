@@ -10,6 +10,8 @@ export default function userReducer(state = {}, action){
             })
         case 'ADD_PROFILE_PHOTO':
             return action.user
+        case 'GET_USER_LOCATION':
+            return {...state, location: action.location}
         default: 
             return state
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, Image, Alert, Button } from 'react-native'
+import { Text, Image, Alert, Button, View } from 'react-native'
 import MapView, { Marker, Callout } from 'react-native-maps';
 
 import * as Location from 'expo-location';
@@ -49,14 +49,44 @@ class Map extends Component {
         })
     }
 
+    renderMap = () => {
+        if(Number(this.props.userLocation.lat) !== 42.8781){
+                return (
+                    <MapView 
+                    style={{flex: 1}}
+                    initialRegion={{
+                        latitude: this.props.userLocation.lat,
+                        longitude: this.props.userLocation.lng,
+                        latitudeDelta: 0.04,
+                        longitudeDelta: 0.04,}}
+                    >
+                        {this.renderMarkers()}
+                        {this.props.renderLocation()}
+                    </MapView>
+                )
+                } else {
+                return (
+                    <MapView 
+                    style={{flex: 1}}
+                    initialRegion={initialCoords}
+                    >
+                        {this.renderMarkers()}
+                        {this.props.renderLocation()}
+                    </MapView>
+                )
+            }
+    }
 
     render() {
-        return (
+        
+        return(
             <MapView 
             style={{flex: 1}}
-            initialRegion={initialCoords}
-            region={this.props.region}
-            onRegionChange={this.props.onRegionChange}
+            region={{
+                latitude: this.props.userLocation.lat,
+                longitude: this.props.userLocation.lng,
+                latitudeDelta: 0.04,
+                longitudeDelta: 0.04,}}
             >
                 {this.renderMarkers()}
                 {this.props.renderLocation()}
@@ -66,7 +96,7 @@ class Map extends Component {
 }
 
 const initialCoords = {
-    latitude: 41.8915382,
+    latitude: 40,
     longitude: -87.6276310,
     latitudeDelta: 0.0022,
     longitudeDelta: 0.0821,
