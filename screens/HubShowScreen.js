@@ -216,10 +216,12 @@ class HubShowScreen extends Component {
         getDirections(data)
     }
 
+    //Handle Edit and Delete Hub
+
     
 
     render() {
-    
+        
         return (
             <View styles={styles.screen}>
                 

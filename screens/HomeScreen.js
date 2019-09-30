@@ -161,7 +161,7 @@ class HomeScreen extends React.Component{
                 <BottomDrawer
                         containerHeight={750}
                         offset={20}
-                        startUp={true}
+                        startUp={false}
                         roundedEdges={true}
                         shadow={true}
                 >
