@@ -9,7 +9,8 @@ import {
     Button, 
     Alert, 
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    Image
 } from 'react-native';
 
 import MapView, { Marker, Callout } from 'react-native-maps';
@@ -59,7 +60,7 @@ class AddHubScreen extends Component{
    
 
     handleHubSubmit = () => {
-        if(this.state.hubName && this.state.hubNoise){
+        if(this.state.hubName && this.state.hubNoise && this.state.hubDescription){
             this.props.addHub(this.state)
             Alert.alert('Hub Added!')
             this.setState({
@@ -98,17 +99,20 @@ class AddHubScreen extends Component{
             return(
                 <MapView
                     style={{ flex: 1 }}
-                    region={{latitude: latitude,
+                    initialRegion={{latitude: latitude,
                         longitude: longitude,
-                        latitudeDelta: 0.04,
-                        longitudeDelta: 0.04,}}
+                        latitudeDelta: 0.00109,
+                        longitudeDelta: 0.00099,}}
                 >
                     <Marker
                     coordinate={{latitude: latitude, 
                     longitude: longitude}}
                     title="Place on Hub"
                     draggable
-                    onDragEnd={this.addHubLocation}
+                    onDragEnd={
+                        this.addHubLocation
+
+                    }
                     >
 
                     </Marker>
@@ -118,10 +122,10 @@ class AddHubScreen extends Component{
             return(
                 <MapView
                     style={{ flex: 1 }}
-                    region={{latitude: this.state.location.lat,
+                    initialRegion={{latitude: this.state.location.lat,
                         longitude: this.state.location.lng,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,}}
+                        latitudeDelta: 0.00109,
+                        longitudeDelta: 0.00099,}}
                 >
                     <Marker
                     coordinate={{latitude: this.state.location.lat, 
@@ -261,9 +265,8 @@ const options = [
     }
 ]
 
-
 AddHubScreen.navigationOptions = {
-    title: 'Add A Hub',
+    headerTitle: 'Add A Hub',
     headerStyle: {
         backgroundColor: '#1675AA',
     },
@@ -271,6 +274,7 @@ AddHubScreen.navigationOptions = {
     headerTitleStyle: {
         fontWeight: 'bold',
     },
+    headerRight:(<Image source={require("../assets/images/study_logo.png")} style={{height: 40, width: 40}}/>)
 };
 
 const styles = StyleSheet.create({

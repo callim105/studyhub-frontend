@@ -6,9 +6,9 @@ import {
     TouchableOpacity, 
     Alert, 
     StyleSheet, 
-    AsyncStorage,
     TextInput,
-    Picker
+    Picker,
+    Image
 } from 'react-native'
 
 import { connect } from 'react-redux';
@@ -45,11 +45,16 @@ class AddReviewModal extends Component {
                 onRequestClose={() => {
                  Alert.alert('Modal has been closed.');
                 }}>
-                    <View style={{marginTop: 50}}>
+                    <View>
                         <View style={styles.reviewModal}>
-                        <Text>Add a Review!</Text>
-                        <Text>Rating</Text>
-                        <View>
+                            <View style={styles.title}>
+                                <Image source={require('../assets/images/study_logo.png')} style={{height: 50, width: 50}}/>
+                                <Text style={{fontSize: 40, color:'white'}}>Add a Review!</Text>
+                            </View>
+                            <View style={styles.picker}>
+                                <Text style={styles.rating}>Rating: </Text>
+                                <Text style={styles.rating}>{this.props.renderStars(this.state.rating)}</Text>
+                            </View>
                             <Picker 
                                 selectedValue={this.state.rating}
                                 onValueChange = {value => this.setState({rating: value})}
@@ -61,36 +66,39 @@ class AddReviewModal extends Component {
                                 <Picker.Item label = "4" value={4} />
                                 <Picker.Item label = "5" value={5} />
                             </Picker>
-                        </View>
+                            
 
 
-                        <Text>Review</Text>
-                        <TextInput 
-                            style={styles.reviewTextInput} 
-                            placeholder="Enter Review..." 
-                            multiline={true}
-                            autoCapitalize="sentences"
-                            onChangeText={content => this.setState({content: content})}
-                            value={this.state.content}
-                        />
-                        
-                        <TouchableOpacity
-                            onPress={() => {
-                                this.props.addReview(this.state)
-                                this.props.setModalVisible(!this.props.modalVisible)
-                            }}
-                        >
-                            <Text>
-                                Submit Review
-                            </Text>
-                        </TouchableOpacity>
-                        
-                        <TouchableOpacity
-                            onPress={() => {
-                            this.props.setModalVisible(!this.props.modalVisible);
-                            }}>
-                            <Text>Back</Text>
-                        </TouchableOpacity>
+                            <Text>Review</Text>
+                            <TextInput 
+                                style={styles.reviewTextInput} 
+                                placeholder="Enter Review..." 
+                                multiline={true}
+                                autoCapitalize="sentences"
+                                onChangeText={content => this.setState({content: content})}
+                                value={this.state.content}
+                                blurOnSubmit={true}
+                            />
+                            <View style={{paddingTop: 10, width: '100%', alignItems:'center', justifyContent:'space-between', height: 100}}>
+                                <TouchableOpacity
+                                    style={styles.submit}
+                                    onPress={() => {
+                                        this.props.addReview(this.state)
+                                        this.props.setModalVisible(!this.props.modalVisible)
+                                    }}
+                                >
+                                    <Text style={{color:'white', fontSize: 20}}>
+                                        Submit Review
+                                    </Text>
+                                </TouchableOpacity>
+                                
+                                <TouchableOpacity
+                                    onPress={() => {
+                                    this.props.setModalVisible(!this.props.modalVisible);
+                                    }}>
+                                    <Text>Back</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -101,14 +109,37 @@ class AddReviewModal extends Component {
 
 
 const styles = StyleSheet.create({
+    title:{
+        backgroundColor: '#1675AA',
+        width: '100%',
+        alignItems:'center',
+        paddingTop: 50
+    },
     reviewModal:{
         alignItems: 'center',
     },
     reviewTextInput:{
-        width: 200,
+        width: 300,
         height: 70,
         borderWidth: 1,
         borderColor: 'black'
+    },
+    submit:{
+        backgroundColor: '#1675AA',
+        width: "80%",
+        height: 40,
+        borderRadius: 4,
+        justifyContent:"center",
+        alignItems: 'center',
+        color:'white'
+    },
+    picker:{
+        flexDirection:'row',
+        justifyContent:'space-around',
+        alignItems:'center'
+    },
+    rating: {
+        fontSize: 20
     }
 })
 

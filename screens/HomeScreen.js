@@ -148,7 +148,7 @@ class HomeScreen extends React.Component{
                 </View>
             )
         }
-        console.log(this.props.user)
+        
         return (
             <View style={styles.container}>
                 <Map 
@@ -182,7 +182,7 @@ class HomeScreen extends React.Component{
 
 //Navbar top options
 HomeScreen.navigationOptions = {
-  title: 'STUDYHUB',
+  title: 'StudyHub' ,
   headerStyle: {
       backgroundColor: '#1675AA',
   },
@@ -190,7 +190,7 @@ HomeScreen.navigationOptions = {
   headerTitleStyle:{
       fontWeight: 'bold',
   },
-  
+  headerRight:(<Image source={require("../assets/images/study_logo.png")} style={{height: 35, width: 35}}/>)
 };
 
 
