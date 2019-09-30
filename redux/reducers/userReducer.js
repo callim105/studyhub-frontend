@@ -12,6 +12,8 @@ export default function userReducer(state = {}, action){
             return action.user
         case 'GET_USER_LOCATION':
             return {...state, location: action.location}
+        case 'UPDATE_BIO':
+            return action.user
         default: 
             return state
     }

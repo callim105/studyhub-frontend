@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, Image } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import Profile from '../components/Profile'
 import { connect } from 'react-redux';
@@ -9,7 +9,6 @@ class ProfileScreen extends Component {
     
     componentDidMount(){
         this.props.fetchUser()
-        
     }
 
     handleLogOut = () => {
@@ -35,6 +34,7 @@ ProfileScreen.navigationOptions = {
     headerTitleStyle: {
         fontWeight: 'bold',
     },
+    headerRight:(<Image source={require("../assets/images/study_logo.png")} style={{height: 35, width: 35}}/>)
 };
 
 export default connect(null, { fetchUser })(ProfileScreen)

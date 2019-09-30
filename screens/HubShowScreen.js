@@ -229,6 +229,7 @@ class HubShowScreen extends Component {
                     modalVisible={this.state.modalVisible} 
                     setModalVisible={this.setModalVisible}
                     hubId={this.id}
+                    renderStars={this.renderStars}
                 />
 
                 <View styles={styles.imageContainer}>
@@ -239,9 +240,22 @@ class HubShowScreen extends Component {
                     }
                 </View>
                 <View>
-                    <Text style={styles.name}>{this.currentHub.name}</Text>
-                    <Text>Rating: {this.renderStars(this.calcRating())} ({this.filterReviews().length} Reviews)</Text>
-                    <Text>Description:{this.currentHub.description}</Text>
+                    <View>
+                        <View style={{flexDirection:'row', justifyContent:'space-between', width: '95%'}}>
+                            <Text style={styles.name}>{this.currentHub.name}</Text>
+                            <TouchableOpacity
+                                onPress={
+                                    this.takeImage
+                                }
+                            >
+                                <Text style={styles.addReviewText}>
+                                Add Photo
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <Text>Rating: {this.renderStars(this.calcRating())} ({this.filterReviews().length} Reviews)</Text>
+                        <Text>Description:{this.currentHub.description}</Text>
+                    </View>
                     <View style={styles.addReviewHolder}>
                         <TouchableOpacity
                             onPress={()=>{
@@ -252,15 +266,7 @@ class HubShowScreen extends Component {
                             Add Review
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={
-                                this.takeImage
-                            }
-                        >
-                            <Text style={styles.addReviewText}>
-                            Add Photo
-                            </Text>
-                        </TouchableOpacity>
+                        
                         <TouchableOpacity
                             onPress={
                                 this.handleGetDirections
@@ -283,6 +289,16 @@ class HubShowScreen extends Component {
         )
     }
 }
+
+HubShowScreen.navigationOptions = {
+    headerStyle: {
+        backgroundColor: '#1675AA',
+    },
+    headerRight: (<Image source={require("../assets/images/study_logo.png")} style={{height: 40, width: 40}}/>),
+    headerBackTitleStyle:{
+        color:'white'
+    }
+};
 
 const styles = StyleSheet.create({
     name: {

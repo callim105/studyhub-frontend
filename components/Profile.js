@@ -11,14 +11,14 @@ const { manifest } = Constants;
 
 import { connect } from 'react-redux';
 import { addProfileToUser } from '../redux/actions/userActions';
-
+import EditBioModal from '../components/EditBioModal';
 
 class Profile extends Component {
     
     constructor(props){
         super(props)
         this.state = {
-        
+            modalVisible: false,
         }
         this.userUrl = `http://${manifest.debuggerHost.split(':').shift()}:3000/users/${this.props.user.id}`;
     }
@@ -27,7 +27,9 @@ class Profile extends Component {
 
     }
 
-    
+    setModalVisible = (visible) => {
+        this.setState({modalVisible: visible})
+    }
 
     verifyPermissions = async () => {
         const result = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
@@ -108,7 +110,6 @@ class Profile extends Component {
 
 
     render() {
-     
         return (
             <View>
                 <View style={styles.avatarHolder}>
@@ -134,7 +135,26 @@ class Profile extends Component {
                 </View>
                 <View style={styles.usernameHolder}>
                     <Text style={{fontSize: 30,}}>{this.props.user.username}</Text>
-                    <Text>{this.props.user.bio}</Text>
+                    <View style={styles.bioHolder}>
+                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text>Bio:</Text>
+                            <TouchableOpacity
+                                style={{flexDirection:'row'}}
+                                onPress={() => this.setModalVisible(!this.state.modalVisible)}
+                            >
+                                <Text style={{color:Colors.loginScreenColor}}>Edit</Text>
+                                <Ionicons name="md-create" size={20} color={Colors.loginScreenColor} />
+                            </TouchableOpacity>
+                        </View>
+                        <Text>
+                            {this.props.user.bio}
+                        </Text>
+                    </View>
+
+                    <EditBioModal  
+                        setModalVisible={this.setModalVisible} 
+                        modalVisible={this.state.modalVisible}
+                    />
                 </View>
                 <View
                 style={{
@@ -202,6 +222,10 @@ const styles = StyleSheet.create({
     reviewScroll:{
         width: 300,
         alignItems:'center'
+    },
+    bioHolder:{
+        width: 250,
+        paddingBottom: 20,
     }
 
 })

@@ -55,21 +55,22 @@ const HubCard = (props) => {
                         Rating: {props.renderStars(rating)}({reviews.length} reviews)
                     </Text>
                 </View>
-
-                <TouchableOpacity 
-                    style={styles.viewMoreButton}
-                    onPress={()=>{props.navigation.navigate('HubShow',{
-                        id: id,
-                    })}}
-                >
-                    <Text>View More</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.getDirectionsButton}
-                    onPress={this.handleGetDirections}
-                >
-                    <Text>Get Directions</Text>
-                </TouchableOpacity>
+                <View style={styles.options}>
+                    <TouchableOpacity 
+                        style={styles.viewMoreButton}
+                        onPress={()=>{props.navigation.navigate('HubShow',{
+                            id: id,
+                        })}}
+                    >
+                        <Text style={{color:'#1675AA', fontSize: 20}}>View More</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.getDirectionsButton}
+                        onPress={this.handleGetDirections}
+                    >
+                        <Text style={{color:'#1675AA', fontSize: 20}}>Get Directions</Text>
+                    </TouchableOpacity>
+                </View>
             </Card>
         
     )
@@ -87,10 +88,16 @@ const styles = StyleSheet.create({
         height: 100
     },
     viewMoreButton:{
-
+       
     },
     getDirectionsButton:{
-
+        
+        
+    },
+    options:{
+        flexDirection:'row',
+        justifyContent:'space-around',
+        paddingTop: 10
     }
 })
 

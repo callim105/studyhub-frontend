@@ -1,6 +1,7 @@
 import Constants from "expo-constants";
 const { manifest } = Constants;
 const uri = `http://${manifest.debuggerHost.split(':').shift()}:3000/profile`;
+const usersUri =`http://${manifest.debuggerHost.split(':').shift()}:3000/users` 
 import { AsyncStorage } from 'react-native';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -104,3 +105,25 @@ export const currentLocation = () => async dispatch => {
         
 }
     
+//Update user bio
+export const updateBio = (user, bio) => async dispatch => {
+    const token = await _retrieveData('jwt')
+
+    return (fetch(usersUri + '/' + user.id, {
+        method: 'PATCH',
+        headers: {
+            "content-type":"application/json",
+            "accept":"application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body:JSON.stringify({
+            user:{
+                bio: bio
+            }
+        })
+    })
+        .then(res => res.json())
+        .then(user => dispatch({type:"UPDATE_BIO", user}))
+        .catch(err => console.error(err))
+    )
+}
