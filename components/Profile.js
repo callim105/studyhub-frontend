@@ -12,6 +12,7 @@ const { manifest } = Constants;
 import { connect } from 'react-redux';
 import { addProfileToUser } from '../redux/actions/userActions';
 import EditBioModal from '../components/EditBioModal';
+import _ from 'lodash'
 
 class Profile extends Component {
     
@@ -97,7 +98,7 @@ class Profile extends Component {
     }
     
     renderPersonalReviews = () => {
-        return this.filterPersonalReviews().map(review => (
+        return _.reverse(this.filterPersonalReviews().map(review => (
            
             <View key={review.id} style={styles.indyReview}>
                 <Text style={{color: 'grey', fontSize: 12}}>User: {review.user.username} says...</Text>
@@ -106,6 +107,7 @@ class Profile extends Component {
                 <Text style={{color: 'grey', fontSize: 10}}>Date Posted: {review.created_at.split("T")[0]}</Text>
             </View>
         ))
+        )
     }
 
 

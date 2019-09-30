@@ -40,6 +40,7 @@ class EditBioModal extends Component {
                             style={styles.bioText}
                             multiline={true}
                             autoCapitalize="sentences"
+                            maxLength={250}
                             onChangeText={content => this.setState({bio: content})}
                             value={this.state.bio}
                         />
