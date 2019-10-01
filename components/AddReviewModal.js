@@ -85,6 +85,7 @@ class AddReviewModal extends Component {
                                     onPress={() => {
                                         this.props.addReview(this.state)
                                         this.props.setModalVisible(!this.props.modalVisible)
+                                        this.setState({content:"", rating: 3})
                                     }}
                                 >
                                     <Text style={{color:'white', fontSize: 20}}>

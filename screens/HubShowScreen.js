@@ -10,6 +10,9 @@ const railsImageUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/i
 import { SliderBox } from 'react-native-image-slider-box';
 import getDirections from 'react-native-google-maps-directions'
 import Review from '../components/Review';
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+
+
 //Redux
 import { connect } from 'react-redux';
 import { addImage } from '../redux/actions/imageActions';
@@ -301,50 +304,56 @@ class HubShowScreen extends Component {
                         <Text>Rating: {this.renderStars(this.calcRating())} ({this.filterReviews().length} Reviews)</Text>
                         <Text>Description:{this.currentHub.description}</Text>
                     </View>
-                    <View style={styles.addReviewHolder}>
-                        <TouchableOpacity
-                            onPress={()=>{
-                                this.setModalVisible(true)
-                            }}
-                        >
-                            <Text style={styles.addReviewText}>
-                            Add Review
-                            </Text>
-                        </TouchableOpacity>
-                        
-                        <TouchableOpacity
-                            onPress={
-                                this.handleGetDirections
-                            }
-                        >
-                            <Text style={styles.addReviewText}>
-                            Get Directions
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
+                    <View style={{
+                    flexDirection: 'row',
+                    justifyContent:'space-around',
+                    paddingTop: 5,
+                    paddingBottom: 5}}>
                             <TouchableOpacity
+                                style={styles.hubOptions}
                                 onPress={
                                     this.takeImage
                                 }
                             >
-                                <Text style={styles.addReviewText}>
-                                Take Photo
-                                </Text>
+                                <Ionicons name="md-camera" size={20} color="white" />
+                                <Text style={{color:'white', fontSize: 20}}>Take Photo</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
+                                style={styles.hubOptions}
                                 onPress={
                                     this.pickImage
                                 }
                             >
-                                <Text style={styles.addReviewText}>
-                                Add Photo from Camera Roll
-                                </Text>
+                                <MaterialCommunityIcons name="camera-iris" size={20} color="white" />
+                                <Text style={{color:'white', fontSize: 20}}>Add Existing</Text>
                             </TouchableOpacity>
                     </View>
+                    <View style={styles.addReviewHolder}>
+                        <TouchableOpacity
+                            style={styles.hubOptions}
+                            onPress={()=>{
+                                this.setModalVisible(true)
+                            }}
+                        >
+                            <MaterialCommunityIcons name="comment" size={20} color="white" />
+                            <Text style={{color:'white', fontSize: 20}}>Add Review</Text>
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity
+                            style={styles.hubOptions}
+                            onPress={
+                                this.handleGetDirections
+                            }
+                        >
+                            <MaterialIcons name="directions" size={20} color="white" />
+                            <Text style={{color:'white', fontSize: 20}}>Directions</Text>
+                        </TouchableOpacity>
+                    </View>
+                    
                     
                 </View>
                 <View style={styles.scrollViewHolder}>
+                    <Text>Reviews:</Text>
                     <ScrollView contentContainerStyle={styles.reviewsHolder}>
                         
                         {this.renderReviews()}
@@ -380,7 +389,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent:'space-around',
         borderBottomWidth: 1,
-        borderBottomColor: 'black'
+        borderBottomColor: 'black',
+        paddingTop: 5,
+        paddingBottom: 5
     },
     addReviewText:{
         fontSize: 20,
@@ -398,7 +409,29 @@ const styles = StyleSheet.create({
         padding: 10
     },
     scrollViewHolder:{
-        height:350
+        height:350,
+        paddingBottom: 70
+    },
+    photoOptions:{
+        fontSize: 15,
+        color: 'blue'
+    },
+    hubOptions:{
+        backgroundColor: '#1675AA',
+        flexDirection:'row',
+        borderRadius: 20,
+        padding: 5,
+        justifyContent:'space-around',
+        width: 150,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+
+        elevation: 4
     }
 })
 

@@ -159,8 +159,8 @@ class HomeScreen extends React.Component{
                     region={this.state.region}
                 />
                 <BottomDrawer
-                        containerHeight={750}
-                        offset={60}
+                        containerHeight={630}
+                        offset={170}
                         startUp={false}
                         roundedEdges={true}
                         shadow={true}
