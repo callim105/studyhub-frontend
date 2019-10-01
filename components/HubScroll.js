@@ -16,7 +16,7 @@ export default class HubScroll extends Component {
     }
 
     fullySortedHubs = () => {
-        const hubs = this.sortHubsByLocation().map(thing => thing.hub)
+        const hubs = this.sortHubsByLocation().map(hubwDist => hubwDist)
         return hubs
     }
     sortHubsByRating = () => {
@@ -76,19 +76,20 @@ export default class HubScroll extends Component {
                 
                 <ScrollView contentContainerStyle={{ paddingVertical: 5, backgroundColor:'#e9ebee' }}>
                     <TouchableOpacity activeOpacity={1}>
-                    {this.fullySortedHubs().map(({ name, rating, id ,description, reviews, latitude, longitude}) => (
+                    {this.fullySortedHubs().map(hubwDist => (
                         <HubCard 
-                            key={id} 
-                            name={name} 
-                            rating={rating}
-                            id={id} 
-                            reviews={reviews} 
-                            description={description}
+                            key={hubwDist.hub.id} 
+                            name={hubwDist.hub.name} 
+                            rating={hubwDist.hub.rating}
+                            id={hubwDist.hub.id} 
+                            reviews={hubwDist.hub.reviews} 
+                            description={hubwDist.hub.description}
                             renderStars={this.props.renderStars} 
                             navigation={this.props.navigation}
-                            hubLatitude={latitude}
-                            hubLongitude={longitude}
+                            hubLatitude={hubwDist.hub.latitude}
+                            hubLongitude={hubwDist.hub.longitude}
                             userLocation={this.props.location}
+                            distance={hubwDist.dist}
                         />
                     ))
                     }

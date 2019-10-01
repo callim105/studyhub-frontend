@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Button, Image, TouchableOpacity, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
+import { View, Text, Button, Image, TouchableOpacity, StyleSheet, ScrollView, AsyncStorage, TouchableWithoutFeedback } from 'react-native';
 import Colors from '../constants/Colors'
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
@@ -128,7 +128,7 @@ class Profile extends Component {
 
     render() {
         return (
-            <View>
+            <ScrollView contentContainerStyle={{alignItems:'center', height: 700}}>
                 <View style={styles.avatarHolder}>
                     {this.props.user.avatar ? 
                     <View>
@@ -173,22 +173,28 @@ class Profile extends Component {
                         modalVisible={this.state.modalVisible}
                     />
                 </View>
-                <View
-                style={{
-                    borderBottomColor: 'black',
-                    borderBottomWidth: 1,
-                }}
-                />
-                <Text>{this.props.user.username}'s Reviews:</Text>
-                <View style={styles.reviewsHolder}>
-                    <ScrollView contentContainerStyle={styles.reviewScroll}>
-                        {this.renderPersonalReviews()}
-                    </ScrollView>
+                
+                <View style={styles.personalRevHolder}>
+                    <Text>{this.props.user.username}'s Reviews:</Text>
+                    <View style={styles.reviewsHolder}>
+                        <TouchableWithoutFeedback>
 
+                            <ScrollView contentContainerStyle={styles.reviewScroll}>
+                                {this.renderPersonalReviews()}
+                            </ScrollView>
+                        </TouchableWithoutFeedback>
+                    </View>
                 </View>
                 
-                <Button title="Log Out" onPress={this.props.handleLogOut} />
-            </View>
+                <TouchableOpacity
+                    style={styles.logOut}
+                    onPress={this.props.handleLogOut}
+                >
+                    <Text style={{color: 'white'}}>
+                        Log Out
+                    </Text>
+                </TouchableOpacity> 
+            </ScrollView>
         )
     }
 }
@@ -214,7 +220,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 2,
         borderColor: 'black',
-        height: 200,
+        height: 170,
         width: 200
     },
     avatarHolder:{
@@ -222,7 +228,12 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     usernameHolder:{
-        alignItems:'center'
+        alignItems:'center',
+        backgroundColor:'whitesmoke',
+        width: '90%',
+        borderRadius: 10,
+        marginTop: 10,
+        marginBottom: 10
     },
     indyReview:{
         borderBottomColor: 'black',
@@ -244,6 +255,22 @@ const styles = StyleSheet.create({
         width: '90%',
         paddingBottom: 20,
         
+    },
+    personalRevHolder:{
+        backgroundColor:'whitesmoke',
+        borderRadius: 10,
+        width: '90%',
+        padding: 10,
+        marginBottom: 10
+    },
+    logOut:{
+        backgroundColor: '#1675AA',
+        width: "90%",
+        height: 40,
+        borderRadius: 4,
+        justifyContent:"center",
+        alignItems: 'center',
+        color:'white'
     }
 
 })

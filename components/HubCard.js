@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 
 const HubCard = (props) => {
 
-    const {id, name, rating, reviews, userLocation, hubLatitude, hubLongitude} = props
+    const {id, name, rating, reviews, userLocation, hubLatitude, hubLongitude, distance} = props
     
     handleGetDirections = () => {
         const data = {
@@ -38,8 +38,20 @@ const HubCard = (props) => {
         return image
     }
 
-    const showImage = showFirstImage() ? showFirstImage() : {image_url: "https://support.hostgator.com/img/articles/weebly_image_sample.png"}
+    function round(value, decimals) {
+        return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    }
 
+    distanceMeters = (distance) => {
+        if(Number(distance * 100000) < 1000){
+            return <Text>{round(distance * 100000, 3)} m away</Text>
+        } else{
+            return <Text>{round(distance, 3)} km away</Text>
+        }
+    }
+
+    const showImage = showFirstImage() ? showFirstImage() : {image_url: "https://support.hostgator.com/img/articles/weebly_image_sample.png"}
+    
     return (
         
             <Card
@@ -54,6 +66,7 @@ const HubCard = (props) => {
                     <Text>
                         Rating: {props.renderStars(rating)}({reviews.length} reviews)
                     </Text>
+                    <Text>{distanceMeters(distance)}</Text>
                 </View>
                 <View style={styles.options}>
                     <TouchableOpacity 

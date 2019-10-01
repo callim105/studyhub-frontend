@@ -44,7 +44,7 @@ class Review extends Component {
 
 
     render() {
-        console.log(this.props.review)
+        
         return (
             <View style={styles.indyReview}>
                 <View style={{flexDirection:'row', justifyContent:'space-between', width:'100%', marginBottom: 10}}>
