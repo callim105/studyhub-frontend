@@ -51,6 +51,7 @@ class Review extends Component {
                     <Text style={{color: 'grey', fontSize: 15}}>User: {this.props.review.user.username} says...</Text>
                     {this.renderEditButton()}
                 </View>
+                <Text>{this.props.renderStars(this.props.review.rating)}</Text>
                 <Text style={{color: 'grey', fontSize: 10}}>Posted: {this.props.review.created_at.split("T")[0]} </Text>
                 <Text>{this.props.review.content}</Text>
 

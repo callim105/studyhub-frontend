@@ -116,7 +116,7 @@ class HubShowScreen extends Component {
 
     renderReviews = () => {
         return this.filterReviews().map(review => (
-            <Review review={review} key={review.id}/>
+            <Review review={review} key={review.id} renderStars={this.renderStars}/>
         ))
     }
 
@@ -144,6 +144,59 @@ class HubShowScreen extends Component {
             return;
         }
         const image = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [16, 9],
+            base64: true
+        });
+        if(!image.cancelled){
+            this.setState({takenImage: image.uri})
+            let base64Img = `data:image/jpg;base64,${image.base64}`
+
+        
+            let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+            let data = {
+                "file": base64Img,
+                "upload_preset": "baperfir",
+            }
+            fetch(apiUrl, {
+                body: JSON.stringify(data),
+                headers: {
+                'content-type': 'application/json'
+                },
+                method: 'POST',
+            }).then(async r => {
+                let data = await r.json()
+                
+                let photoUrl = data.secure_url
+                fetch(railsImageUri,{
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accepts": "application/json",
+                    },
+                    body: JSON.stringify({
+                        image: {
+                            hub_id: this.id,
+                            user_id: this.state.currentUser.id,
+                            image_url: photoUrl
+                        }
+                    })
+                })
+                .then(res => res.json())
+                .then(image => {
+                    this.props.addImage(image)
+                    this.filterHubImages()
+                })
+            }).catch(err=>console.log(err))
+        }
+    }
+
+    pickImage = async () => {
+        const hasPermission = await this.verifyPermissions();
+        if(!hasPermission){
+            return;
+        }
+        const image = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
             aspect: [16, 9],
             base64: true
@@ -243,15 +296,7 @@ class HubShowScreen extends Component {
                     <View>
                         <View style={{flexDirection:'row', justifyContent:'space-between', width: '95%'}}>
                             <Text style={styles.name}>{this.currentHub.name}</Text>
-                            <TouchableOpacity
-                                onPress={
-                                    this.takeImage
-                                }
-                            >
-                                <Text style={styles.addReviewText}>
-                                Add Photo
-                                </Text>
-                            </TouchableOpacity>
+                            
                         </View>
                         <Text>Rating: {this.renderStars(this.calcRating())} ({this.filterReviews().length} Reviews)</Text>
                         <Text>Description:{this.currentHub.description}</Text>
@@ -276,6 +321,26 @@ class HubShowScreen extends Component {
                             Get Directions
                             </Text>
                         </TouchableOpacity>
+                    </View>
+                    <View>
+                            <TouchableOpacity
+                                onPress={
+                                    this.takeImage
+                                }
+                            >
+                                <Text style={styles.addReviewText}>
+                                Take Photo
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={
+                                    this.pickImage
+                                }
+                            >
+                                <Text style={styles.addReviewText}>
+                                Add Photo from Camera Roll
+                                </Text>
+                            </TouchableOpacity>
                     </View>
                     
                 </View>

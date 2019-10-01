@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Button, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Button, Image, TouchableOpacity, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
 import Colors from '../constants/Colors'
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
@@ -32,6 +32,19 @@ class Profile extends Component {
         this.setState({modalVisible: visible})
     }
 
+    _retrieveData = async (key) => {
+        try {
+            const value = await AsyncStorage.getItem(key);
+            if (value !== null) {
+                // We have data!!
+                return value
+            }
+        } catch (error) {
+            // Error retrieving data
+            throw error;
+        }
+    };
+
     verifyPermissions = async () => {
         const result = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
         if(result.status !== 'granted'){
@@ -46,6 +59,7 @@ class Profile extends Component {
     }
 
     takeImage = async () => {
+        const token = await this._retrieveData('jwt')
         const hasPermission = await this.verifyPermissions();
         if(!hasPermission){
             return;
@@ -81,6 +95,7 @@ class Profile extends Component {
                     headers: {
                         "Content-Type": "application/json",
                         "Accepts": "application/json",
+                        Authorization: `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         avatar: photoUrl
@@ -131,7 +146,7 @@ class Profile extends Component {
                         style={styles.addAvatarButton}
                         onPress={this.takeImage}
                     >
-                        <Text>Add an avatar!</Text>
+                        <Text style={{color:'white'}}>Click to Add an avatar!</Text>
                     </TouchableOpacity>
                     }
                 </View>
