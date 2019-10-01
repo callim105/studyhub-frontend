@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput, Alert, Image } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { updateReview, deleteReview } from '../redux/actions/reviewActions';
 
@@ -47,13 +47,18 @@ class Review extends Component {
         console.log(this.props.review)
         return (
             <View style={styles.indyReview}>
-                <View style={{flexDirection:'row', justifyContent:'space-between', width:'100%'}}>
-                    <Text style={{color: 'grey', fontSize: 15}}>User: {this.props.review.user.username} says...</Text>
+                <View style={{flexDirection:'row', justifyContent:'space-between', width:'100%', marginBottom: 10}}>
+                    <View style={styles.username}>
+                        <Image source={{uri: this.props.review.user.avatar}} style={{height: 20, width: 20, borderRadius: 10}}/>
+                        <Text style={{color: 'darkslateblue', fontSize: 15}}>{this.props.review.user.username}</Text>
+                    </View>
                     {this.renderEditButton()}
                 </View>
-                <Text>{this.props.renderStars(this.props.review.rating)}</Text>
-                <Text style={{color: 'grey', fontSize: 10}}>Posted: {this.props.review.created_at.split("T")[0]} </Text>
-                <Text>{this.props.review.content}</Text>
+                <View style={styles.reviewContent}>
+                    <Text>{this.props.renderStars(this.props.review.rating)}</Text>
+                    <Text>{this.props.review.content}</Text>
+                    <Text style={{color: 'grey', fontSize: 10}}>Posted: {this.props.review.created_at.split("T")[0]} </Text>
+                </View>
 
                 <Modal
                 animationType="slide"
@@ -113,7 +118,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         width: '80%',
         alignItems: 'flex-start',
-        padding: 10
+        padding: 10,
+        backgroundColor:'#e9ebee'
     },
     editReviewModal:{
         marginTop:150,
@@ -149,6 +155,19 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         justifyContent:"center",
         alignItems: 'center',
+    },
+    username:{
+        backgroundColor:'whitesmoke',
+        opacity: 0.8,
+        borderRadius: 10,
+        flexDirection:'row',
+        padding: 5
+    },
+    reviewContent:{
+        backgroundColor:'whitesmoke',
+        opacity: 0.8,
+        borderRadius: 10,
+        padding: 10
     }
 })
 

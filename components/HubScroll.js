@@ -74,7 +74,7 @@ export default class HubScroll extends Component {
                     <Text style={styles.hubScrollTitle}>Hubs near you...</Text>
                 </View>
                 
-                <ScrollView contentContainerStyle={{ paddingVertical: 5 }}>
+                <ScrollView contentContainerStyle={{ paddingVertical: 5, backgroundColor:'#e9ebee' }}>
                     <TouchableOpacity activeOpacity={1}>
                     {this.fullySortedHubs().map(({ name, rating, id ,description, reviews, latitude, longitude}) => (
                         <HubCard 

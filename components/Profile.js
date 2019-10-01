@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
         padding: 10
     },
     reviewsHolder:{
-        height: 200,
+        height: 250,
         width: '100%',
         alignItems:'center',
     },
@@ -241,8 +241,9 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     bioHolder:{
-        width: 250,
+        width: '90%',
         paddingBottom: 20,
+        
     }
 
 })

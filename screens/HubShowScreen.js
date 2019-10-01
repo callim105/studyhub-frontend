@@ -296,13 +296,13 @@ class HubShowScreen extends Component {
                     }
                 </View>
                 <View>
-                    <View>
+                    <View style={{paddingLeft: 10}}>
                         <View style={{flexDirection:'row', justifyContent:'space-between', width: '95%'}}>
                             <Text style={styles.name}>{this.currentHub.name}</Text>
-                            
                         </View>
-                        <Text>Rating: {this.renderStars(this.calcRating())} ({this.filterReviews().length} Reviews)</Text>
-                        <Text>Description:{this.currentHub.description}</Text>
+                            
+                        <Text style={{fontSize: 20}}>Rating: {this.renderStars(this.calcRating())} {this.filterReviews().length} Reviews</Text>
+                        <Text>{this.currentHub.description}</Text>
                     </View>
                     <View style={{
                     flexDirection: 'row',
@@ -325,7 +325,10 @@ class HubShowScreen extends Component {
                                 }
                             >
                                 <MaterialCommunityIcons name="camera-iris" size={20} color="white" />
-                                <Text style={{color:'white', fontSize: 20}}>Add Existing</Text>
+                                <View>
+                                <Text style={{color:'white', fontSize: 11}}>Add Photo</Text>
+                                <Text style={{color:'white', fontSize: 11}}>from Camera Roll</Text>
+                                </View>
                             </TouchableOpacity>
                     </View>
                     <View style={styles.addReviewHolder}>
@@ -353,9 +356,11 @@ class HubShowScreen extends Component {
                     
                 </View>
                 <View style={styles.scrollViewHolder}>
-                    <Text>Reviews:</Text>
+                    <View style={{borderBottomColor:'black', borderBottomWidth:2, paddingLeft: 10,}}>
+                        <Text>Reviews:</Text>
+
+                    </View>
                     <ScrollView contentContainerStyle={styles.reviewsHolder}>
-                        
                         {this.renderReviews()}
                     </ScrollView>
                 </View>
@@ -388,8 +393,6 @@ const styles = StyleSheet.create({
     addReviewHolder:{
         flexDirection: 'row',
         justifyContent:'space-around',
-        borderBottomWidth: 1,
-        borderBottomColor: 'black',
         paddingTop: 5,
         paddingBottom: 5
     },
@@ -399,7 +402,8 @@ const styles = StyleSheet.create({
     },
     reviewsHolder:{
         alignItems: 'center',
-        paddingVertical: 5
+        paddingVertical: 5,
+        backgroundColor:'#e9ebee'
     },
     indyReview:{
         borderBottomColor: 'black',
@@ -410,7 +414,8 @@ const styles = StyleSheet.create({
     },
     scrollViewHolder:{
         height:350,
-        paddingBottom: 70
+        paddingBottom: 90,
+        
     },
     photoOptions:{
         fontSize: 15,

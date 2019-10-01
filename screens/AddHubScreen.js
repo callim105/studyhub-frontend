@@ -157,7 +157,7 @@ class AddHubScreen extends Component{
                         shadow={true}
                     >
                         <View style={styles.addFormContainer}>
-                                <View style={{width:'100%'}}>
+                                <View style={{width:'100%', backgroundColor:'white'}}>
                                     <View style={{alignItems:'center', float:'center'}}>
                                     <MaterialIcons name="drag-handle" size={20} color="black" />
                                     </View>
@@ -180,7 +180,7 @@ class AddHubScreen extends Component{
                                         value={this.state.hubName}
                                     
                                     />
-                                    <Text style={styles.formTitles}>Description: (Add a short description of the hub!)</Text>
+                                    <Text style={styles.formTitles}>Description: </Text>
                                     <TextInput 
                                         style={styles.description} 
                                         multiline={true}
@@ -284,7 +284,9 @@ const styles = StyleSheet.create({
     },
     addFormContainer:{
         alignItems:'center',
-        width: '100%'
+        width: '100%',
+        backgroundColor:'#e9ebee',
+        height: '100%'
     },
     formInput:{
         width: "80%",
@@ -314,8 +316,11 @@ const styles = StyleSheet.create({
         borderColor: 'black'
     },
     formContainer:{
-        width: '80%',
-        marginTop: 10
+        width: '90%',
+        marginTop: 10,
+        backgroundColor:'whitesmoke',
+        borderRadius: 10,
+        padding: 10
     },
     addHubTitle:{
         alignItems: 'flex-start',
