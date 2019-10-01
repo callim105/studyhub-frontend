@@ -107,11 +107,7 @@ class LoginScreen extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.loginOptions}>
-                    <TouchableOpacity onPress={() => this._retrieveData('jwt')}>
-                        <Text style={styles.loginOptionText} >
-                            Forgot Password?
-                        </Text>
-                    </TouchableOpacity>
+                    
                     <View style={styles.newUserContainer}>
                         <Text style={{color:'lightgrey'}}>
                             New user? 

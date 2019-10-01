@@ -67,33 +67,9 @@ class CreateUser extends Component {
             })
         })
             .then(res => res.json())
-            .then(user => this.loginNewUser())
+            .then(user => this._storeData('jwt', user.jwt))
+            .then(()=>{this.props.navigation.navigate('Main')})
             .catch(err => console.error(err))
-    }
-
-    loginNewUser = () => {
-        fetch(loginUri, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Accepts": "application/json"
-            },
-            body: JSON.stringify({
-                user:{
-                    username: this.state.username.toLowerCase(),
-                    password: this.state.password
-                }
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-           this._storeData('jwt', data.jwt)
-          
-        })
-        .then(() => {
-            this.props.navigation.navigate('Main')
-        })
-        .catch(err => console.log(err))
     }
 
     render() {
@@ -139,9 +115,9 @@ class CreateUser extends Component {
                                     />
                                 </View>
                             <TouchableOpacity
-                                onPress={() => {
-                                    this.handleSubmit()
-                                }}
+                                onPress={
+                                    this.handleSubmit
+                                }
                                 style={styles.createButton}
                             >
                                 <Text style={{color:"white", fontSize: 20}}>
