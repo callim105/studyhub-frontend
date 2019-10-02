@@ -57,7 +57,16 @@ const HubCard = (props) => {
             <Card
                 image={{uri: showImage.image_url}}
                 imageWrapperStyle={{borderRadius: 20, overflow: 'hidden'}}
-                containerStyle={{borderRadius: 20}}
+                containerStyle={{
+                    borderRadius: 20,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.23,
+                    shadowRadius: 2.62,
+                    elevation: 4}}
             >
                 <View style={styles.header}>
                     <Text style={styles.cardTitle}>

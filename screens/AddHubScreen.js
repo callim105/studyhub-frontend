@@ -266,7 +266,7 @@ const options = [
 ]
 
 AddHubScreen.navigationOptions = {
-    headerTitle: 'Add A Hub',
+    headerTitle: 'Add a Hub',
     headerStyle: {
         backgroundColor: '#1675AA',
     },
@@ -274,7 +274,7 @@ AddHubScreen.navigationOptions = {
     headerTitleStyle: {
         fontWeight: 'bold',
     },
-    headerRight:(<Image source={require("../assets/images/study_logo.png")} style={{height: 40, width: 40}}/>)
+    
 };
 
 const styles = StyleSheet.create({
@@ -286,7 +286,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
         width: '100%',
         backgroundColor:'#e9ebee',
-        height: '100%'
+        height: '100%',
+        
     },
     formInput:{
         width: "80%",
@@ -320,7 +321,15 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor:'whitesmoke',
         borderRadius: 10,
-        padding: 10
+        padding: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4
     },
     addHubTitle:{
         alignItems: 'flex-start',

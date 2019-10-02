@@ -182,7 +182,6 @@ class HomeScreen extends React.Component{
 
 //Navbar top options
 HomeScreen.navigationOptions = {
-  title: 'StudyHub' ,
   headerStyle: {
       backgroundColor: '#1675AA',
   },
@@ -190,7 +189,7 @@ HomeScreen.navigationOptions = {
   headerTitleStyle:{
       fontWeight: 'bold',
   },
-  headerRight:(<Image source={require("../assets/images/study_logo.png")} style={{height: 35, width: 35}}/>)
+  headerTitle:(<View style={{paddingBottom: 10}}><Image source={require("../assets/images/study_logo.png")} style={{height: 40, width: 40}}/></View>)
 };
 
 

@@ -112,5 +112,6 @@ const styles = StyleSheet.create({
     hubTitleContainer:{
         borderBottomColor: 'black',
         borderBottomWidth: 1,
+        backgroundColor:'whitesmoke'
     }
 })

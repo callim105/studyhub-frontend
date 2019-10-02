@@ -138,7 +138,7 @@ class Profile extends Component {
                         onPress={this.takeImage}
                         >
 
-                            <Ionicons name="md-create" size={20} color="white" />
+                            <Ionicons name="md-camera" size={20} color="white" />
                         </TouchableOpacity>
                     </View>
                     :
@@ -159,7 +159,7 @@ class Profile extends Component {
                                 style={{flexDirection:'row'}}
                                 onPress={() => this.setModalVisible(!this.state.modalVisible)}
                             >
-                                <Text style={{color:Colors.loginScreenColor}}>Edit</Text>
+                                
                                 <Ionicons name="md-create" size={20} color={Colors.loginScreenColor} />
                             </TouchableOpacity>
                         </View>
@@ -206,26 +206,36 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.loginScreenColor,
     },
     changeAvatarButton:{
-        width: 50,
+        width: 40,
+        height: 30,
         backgroundColor: Colors.loginScreenColor,
         borderRadius: 100,
-        borderColor:'black',
+        borderColor:'white',
         borderWidth: 1,
+        justifyContent:'center',
         position: 'absolute',
         right: 10,
         top: 5,
         alignItems:'center'
     },
     avatar:{
-        borderRadius: 20,
+        borderRadius: 100,
         borderWidth: 2,
-        borderColor: 'black',
-        height: 170,
+        borderColor: 'white',
+        height: 200,
         width: 200
     },
     avatarHolder:{
         marginTop:20,
-        alignItems:'center'
+        alignItems:'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4
     },
     usernameHolder:{
         alignItems:'center',
@@ -233,7 +243,15 @@ const styles = StyleSheet.create({
         width: '90%',
         borderRadius: 10,
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4
     },
     indyReview:{
         borderBottomColor: 'black',
@@ -261,7 +279,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: '90%',
         padding: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4
     },
     logOut:{
         backgroundColor: '#1675AA',
@@ -270,7 +296,15 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         justifyContent:"center",
         alignItems: 'center',
-        color:'white'
+        color:'white',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4
     }
 
 })

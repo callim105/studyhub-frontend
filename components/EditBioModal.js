@@ -53,9 +53,10 @@ class EditBioModal extends Component {
                                     this.props.setModalVisible(!this.props.modalVisible)
                                 }}
                             >
-                                <Text style={styles.text}>Submit Changes</Text>
+                                <Text style={{color:'white'}}>Submit Changes</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
+                                style={{paddingTop: 15}}
                                 onPress={() => {
                                 this.props.setModalVisible(!this.props.modalVisible);
                                 }}>
@@ -73,9 +74,12 @@ const styles = StyleSheet.create({
     editBioModal:{
         marginTop:150,
         opacity: 0.95,
-        backgroundColor:'#e8e5d6',
+        backgroundColor:'whitesmoke',
         alignItems: 'center',
         height: 330, 
+        borderColor: 'black',
+        borderWidth: 2,
+        borderRadius: 20
     },
     bioText:{
         height: 200,

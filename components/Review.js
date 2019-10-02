@@ -161,13 +161,29 @@ const styles = StyleSheet.create({
         opacity: 0.8,
         borderRadius: 10,
         flexDirection:'row',
-        padding: 5
+        padding: 5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4
     },
     reviewContent:{
         backgroundColor:'whitesmoke',
         opacity: 0.8,
         borderRadius: 10,
-        padding: 10
+        padding: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4
     }
 })
 

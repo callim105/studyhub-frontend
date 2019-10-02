@@ -34,7 +34,6 @@ ProfileScreen.navigationOptions = {
     headerTitleStyle: {
         fontWeight: 'bold',
     },
-    headerRight:(<Image source={require("../assets/images/study_logo.png")} style={{height: 35, width: 35}}/>)
 };
 
 const styles = StyleSheet.create({
