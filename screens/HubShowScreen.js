@@ -357,7 +357,7 @@ class HubShowScreen extends Component {
                 </View>
                 <View style={styles.scrollViewHolder}>
                     <View style={{borderBottomColor:'black', borderBottomWidth:2, paddingLeft: 10,}}>
-                        <Text>Reviews:</Text>
+                        <Text style={{fontSize: 20,}}>Reviews:</Text>
 
                     </View>
                     <ScrollView contentContainerStyle={styles.reviewsHolder}>

@@ -71,7 +71,9 @@ export default class HubScroll extends Component {
                     <View style={{alignItems:'center', float:'center'}}>
                         <MaterialIcons name="drag-handle" size={20} color="black" />
                     </View>
-                    <Text style={styles.hubScrollTitle}>Hubs near you...</Text>
+                    <View style={styles.hubScrollTitle}>
+                        <Text style={styles.titleText}>Hubs near you...</Text>
+                    </View>
                 </View>
                 
                 <ScrollView contentContainerStyle={{ paddingVertical: 5, backgroundColor:'#e9ebee' }}>
@@ -103,15 +105,28 @@ export default class HubScroll extends Component {
 
 
 const styles = StyleSheet.create({
-    hubScrollTitle: {
+    hubScrollTitle: {        
+        alignItems: 'flex-start',
+        backgroundColor:'whitesmoke',
+        width: '90%',
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4
+    },
+    titleText:{
+        fontSize: 20,
         paddingLeft: 20,
         paddingVertical: 10,
-        fontSize: 20,
-        
     },
     hubTitleContainer:{
-        borderBottomColor: 'black',
-        borderBottomWidth: 1,
-        backgroundColor:'whitesmoke'
+        backgroundColor:'#e9ebee',
+        alignItems:'center',
+        height: 70
     }
 })

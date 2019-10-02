@@ -36,7 +36,7 @@ class Map extends Component {
                 <Callout onPress={() => 
                 this.props.navigation.navigate('HubShow',{
                 id: hub.id,})}>
-                    <Image source={{uri: image.image_url}} style={{width: 200, height: 150}}/>
+                    <Image source={{uri: image.image_url}} style={{width: 200, height: 150, borderRadius: 20}}/>
                     <Text style={{fontSize: 20}}>{hub.name}</Text>                   
                     <Text>{this.props.renderStars(hub.rating)}</Text>
                     <Button title="View More" />

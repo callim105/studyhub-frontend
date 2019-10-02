@@ -157,8 +157,8 @@ class AddHubScreen extends Component{
                         shadow={true}
                     >
                         <View style={styles.addFormContainer}>
-                                <View style={{width:'100%', backgroundColor:'white'}}>
-                                    <View style={{alignItems:'center', float:'center'}}>
+                                <View style={{width:'100%', backgroundColor:'#e9ebee', alignItems:'center'}}>
+                                    <View style={{alignItems:'center', float:'center', paddingBottom: 10}}>
                                     <MaterialIcons name="drag-handle" size={20} color="black" />
                                     </View>
                                     <View style={styles.addHubTitle}>
@@ -292,9 +292,11 @@ const styles = StyleSheet.create({
     formInput:{
         width: "80%",
         height: 30,
-        borderBottomWidth: 1,
-        borderColor: 'black',
-        marginBottom: 10
+        marginBottom: 10,
+        backgroundColor: '#e9ebee',
+        borderRadius: 10,
+        borderColor: 'lightgrey',
+        borderWidth: 1,
     },
     circle: {
 		height: 20,
@@ -313,8 +315,10 @@ const styles = StyleSheet.create({
     },
     description:{
         height: 70,
+        borderRadius: 10,
+        borderColor: 'lightgrey',
         borderWidth: 1,
-        borderColor: 'black'
+        backgroundColor: '#e9ebee'
     },
     formContainer:{
         width: '90%',
@@ -333,9 +337,18 @@ const styles = StyleSheet.create({
     },
     addHubTitle:{
         alignItems: 'flex-start',
-        borderBottomWidth: 1,
-        borderColor: 'black',
         width: '100%',
+        backgroundColor:'whitesmoke',
+        borderRadius: 10,
+        width: '90%',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4
     },
     formTitles:{
         fontSize: 20

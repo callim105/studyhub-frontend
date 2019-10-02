@@ -146,7 +146,8 @@ class Profile extends Component {
                         style={styles.addAvatarButton}
                         onPress={this.takeImage}
                     >
-                        <Text style={{color:'white'}}>Click to Add an avatar!</Text>
+                        <Ionicons name="md-camera" size={40} color="white" />
+                        <Text style={{color:'white'}}>Add an avatar!</Text>
                     </TouchableOpacity>
                     }
                 </View>
@@ -203,7 +204,17 @@ const styles = StyleSheet.create({
     addAvatarButton:{
         width: 100,
         padding:10,
+        alignItems: 'center',
         backgroundColor: Colors.loginScreenColor,
+        borderRadius: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4
     },
     changeAvatarButton:{
         width: 40,
