@@ -48,15 +48,6 @@ class AddHubScreen extends Component{
     componentDidMount(){
         this.props.currentLocation()
     }
-
-    // componentWillReceiveProps(){
-    //     this.setState({
-    //         location:{
-    //             lat: this.props.user.location.coords.latitude,
-    //             lng: this.props.user.location.coords.longitude
-    //         }
-    //     })
-    // }
    
 
     handleHubSubmit = () => {
@@ -70,6 +61,7 @@ class AddHubScreen extends Component{
                 hubRestrooms: false,
                 hubNoise: 'low',
             })
+            this.props.navigation.navigate('HomeStack')
         } else {
             Alert.alert('Please fill out the form!')
         }
