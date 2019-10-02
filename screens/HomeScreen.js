@@ -189,7 +189,12 @@ HomeScreen.navigationOptions = {
   headerTitleStyle:{
       fontWeight: 'bold',
   },
-  headerTitle:(<View style={{paddingBottom: 10}}><Image source={require("../assets/images/study_logo.png")} style={{height: 40, width: 40}}/></View>)
+  headerTitle:(<TouchableOpacity 
+        style={{paddingBottom: 10}}
+        onPress={()=> console.log('hi!')}
+        >
+        <Image source={require("../assets/images/study_logo.png")} style={{height: 40, width: 40}} />
+        </TouchableOpacity>)
 };
 
 
