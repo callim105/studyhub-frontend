@@ -162,7 +162,7 @@ class AddHubScreen extends Component{
                                                 fontSize: 20,
                                                 color:'black'}}
                                             >
-                                                Add a New Hub!
+                                                Drag Marker to New Hub
                                             </Text>
                                         </TouchableWithoutFeedback>
                                     </View>
@@ -220,7 +220,6 @@ class AddHubScreen extends Component{
 
                                         <Text style={styles.formTitles}>Noise Level</Text>
                                         <NoiseRadioButtons options={options} setNoiseLevel={this.setNoiseLevel}/>
-                                        <Text>Drag the pin to your new Hub!</Text>
                                     </View>
 
                                     <TouchableOpacity style={styles.createButton} onPress={this.handleHubSubmit}>

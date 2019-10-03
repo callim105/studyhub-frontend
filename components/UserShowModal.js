@@ -55,7 +55,6 @@ export default class UserShowModal extends Component {
 
 const styles = StyleSheet.create({
     closeModal:{
-        paddingTop: 10,
         backgroundColor: '#1675AA',
         width: "90%",
         height: 40,
@@ -92,7 +91,4 @@ const styles = StyleSheet.create({
     username:{
         fontSize: 30
     },
-    bio:{
-
-    }
 })
