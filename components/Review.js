@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput, Alert, Image } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { updateReview, deleteReview } from '../redux/actions/reviewActions';
+import UserShowModal from './UserShowModal';
 
 
 class Review extends Component {
@@ -10,12 +11,17 @@ class Review extends Component {
         super(props)
         this.state={
             modalVisible: false,
-            content: this.props.review.content
+            content: this.props.review.content,
+            userShowModal: false
         }
     }
 
     setModalVisible(visible){
         this.setState({modalVisible: visible})
+    }
+
+    setUserModalVisible = (visible) => {
+        this.setState({userShowModal: visible})
     }
 
     renderEditButton = () => {
@@ -27,6 +33,10 @@ class Review extends Component {
                         <Ionicons name="md-create" size={20} color="black" />
             </TouchableOpacity>)
         }
+    }
+
+    renderUserModal = () => {
+        this.setUserModalVisible(!this.state.userShowModal)
     }
 
     handleDelete = () => {
@@ -47,18 +57,24 @@ class Review extends Component {
         
         return (
             <View style={styles.indyReview}>
-                <View style={{flexDirection:'row', justifyContent:'space-between', width:'100%', marginBottom: 10}}>
-                    <View style={styles.username}>
-                        <Image source={{uri: this.props.review.user.avatar}} style={{height: 20, width: 20, borderRadius: 10}}/>
-                        <Text style={{color: 'darkslateblue', fontSize: 15}}>{this.props.review.user.username}</Text>
-                    </View>
-                    {this.renderEditButton()}
-                </View>
                 <View style={styles.reviewContent}>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <TouchableOpacity onPress={this.renderUserModal} style={styles.username}>
+                            <Image source={{uri: this.props.review.user.avatar}} style={{height: 20, width: 20, borderRadius: 10}}/>
+                            <Text style={{color: 'darkslateblue', fontSize: 15}}>{this.props.review.user.username}</Text>
+                        </TouchableOpacity>
+                        {this.renderEditButton()}
+                    </View>
                     <Text>{this.props.renderStars(this.props.review.rating)}</Text>
                     <Text>{this.props.review.content}</Text>
                     <Text style={{color: 'grey', fontSize: 10}}>Posted: {this.props.review.created_at.split("T")[0]} </Text>
                 </View>
+
+                <UserShowModal 
+                    userShowModal={this.state.userShowModal}
+                    setUserModalVisible={this.setUserModalVisible}
+                    user={this.props.review.user}
+                />
 
                 <Modal
                 animationType="slide"
@@ -157,21 +173,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     username:{
-        backgroundColor:'whitesmoke',
-        opacity: 0.8,
-        borderRadius: 10,
         flexDirection:'row',
-        padding: 5,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-        elevation: 4
     },
     reviewContent:{
+        width: '100%',
         backgroundColor:'whitesmoke',
         opacity: 0.8,
         borderRadius: 10,

@@ -11,21 +11,6 @@ import HubShowScreen from '../screens/HubShowScreen';
 
 
 
-//Check for jwt
-// const _retrieveData = async (key) => {
-//     try {
-//       const value = await AsyncStorage.getItem(key);
-//       if (value !== null) {
-//         // We have data!!
-//         //This is a thing
-//         return value;
-//       } else {
-//         return false;
-//       }
-//     } catch (error) {
-//       // Error retrieving data
-//     }
-// };
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
