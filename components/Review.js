@@ -117,7 +117,7 @@ class Review extends Component {
                                     onPress={() => {
                                     this.setModalVisible(!this.state.modalVisible);
                                     }}>
-                                    <Text style={styles.text}>Back</Text>
+                                    <Text>Back</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -140,9 +140,12 @@ const styles = StyleSheet.create({
     editReviewModal:{
         marginTop:150,
         opacity: 0.95,
-        backgroundColor:'#e8e5d6',
+        backgroundColor:'whitesmoke',
         alignItems: 'center',
         height: 330, 
+        borderColor: 'black',
+        borderWidth: 2,
+        borderRadius: 20
     },
     reviewText:{
         height: 200,
@@ -152,7 +155,7 @@ const styles = StyleSheet.create({
         color: 'black'
     },
     text:{
-        color:'black'
+        color:'white'
     },
     editTitle:{
         color:"black",
@@ -160,9 +163,11 @@ const styles = StyleSheet.create({
     },
     buttonsContainer:{
         alignItems:'center',
-        justifyContent:"space-around",
+        justifyContent:"center",
         paddingVertical: 15,
-        paddingBottom: 15
+        paddingBottom: 15,
+        width: '100%',
+    
     },
     submit:{
         backgroundColor: '#1675AA',

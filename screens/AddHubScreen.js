@@ -154,14 +154,17 @@ class AddHubScreen extends Component{
                                     <MaterialIcons name="drag-handle" size={20} color="black" />
                                     </View>
                                     <View style={styles.addHubTitle}>
-                                        <Text style={{
-                                            paddingLeft: 20,
-                                            paddingVertical: 10,
-                                            fontSize: 20,
-                                            color:'black'}}
-                                        >
-                                            Add a New Hub!
-                                        </Text>
+                                        <TouchableWithoutFeedback style={{width:'100%'}} onPress={Keyboard.dismiss} >
+                                            <Text style={{
+                                                width:'100%',
+                                                paddingLeft: 20,
+                                                paddingVertical: 10,
+                                                fontSize: 20,
+                                                color:'black'}}
+                                            >
+                                                Add a New Hub!
+                                            </Text>
+                                        </TouchableWithoutFeedback>
                                     </View>
                                 </View>
                                 <View style={styles.formContainer}>
@@ -170,7 +173,7 @@ class AddHubScreen extends Component{
                                         style={styles.formInput} 
                                         onChangeText={name => this.setState({hubName: name})}
                                         value={this.state.hubName}
-                                    
+                                        
                                     />
                                     <Text style={styles.formTitles}>Description: </Text>
                                     <TextInput 
