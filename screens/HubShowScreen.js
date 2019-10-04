@@ -277,7 +277,7 @@ class HubShowScreen extends Component {
     
 
     render() {
-        
+        console.log(this.currentHub)
         return (
             <View styles={styles.screen}>
                 
@@ -299,10 +299,14 @@ class HubShowScreen extends Component {
                     <View style={{paddingLeft: 10}}>
                         <View style={{flexDirection:'row', justifyContent:'space-between', width: '95%'}}>
                             <Text style={styles.name}>{this.currentHub.name}</Text>
+                            
                         </View>
                             
                         <Text style={{fontSize: 20}}>Rating: {this.renderStars(this.calcRating())} {this.filterReviews().length} Reviews</Text>
                         <Text>{this.currentHub.description}</Text>
+                        <Text>Wifi: {this.currentHub.wifi ? "Yes" : "No"}</Text>
+                        <Text>Restrooms: {this.currentHub.restrooms? "Yes":"No"}</Text>
+                        <Text>Average Noise Level: {this.currentHub.noise}</Text>
                     </View>
                     <View style={{
                     flexDirection: 'row',
