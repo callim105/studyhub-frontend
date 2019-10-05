@@ -43,8 +43,8 @@ const HubCard = (props) => {
     }
 
     distanceMeters = (distance) => {
-        if(Number(distance * 100000) < 1000){
-            return <Text>{round(distance * 100000, 3)} m away</Text>
+        if(Number(distance * 10000) < 1000){
+            return <Text>{round(distance * 10000, 3)} m away</Text>
         } else{
             return <Text>{round(distance, 3)} km away</Text>
         }
