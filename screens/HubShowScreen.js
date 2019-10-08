@@ -10,7 +10,7 @@ const railsImageUri = `http://${manifest.debuggerHost.split(':').shift()}:3000/i
 import { SliderBox } from 'react-native-image-slider-box';
 import getDirections from 'react-native-google-maps-directions'
 import Review from '../components/Review';
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, MaterialIcons, Feather } from '@expo/vector-icons';
 
 
 //Redux
@@ -304,9 +304,11 @@ class HubShowScreen extends Component {
                             
                         <Text style={{fontSize: 20}}>Rating: {this.renderStars(this.calcRating())} {this.filterReviews().length} Reviews</Text>
                         <Text>{this.currentHub.description}</Text>
-                        <Text>Wifi: {this.currentHub.wifi ? "Yes" : "No"}</Text>
-                        <Text>Restrooms: {this.currentHub.restrooms? "Yes":"No"}</Text>
-                        <Text>Average Noise Level: {this.currentHub.noise}</Text>
+                        <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+                            <Text>{this.currentHub.wifi ? <Feather name="wifi" size={20} color="black" /> : <Feather name="wifi-off" size={20} color="black" />}</Text>
+                            <Text>{this.currentHub.restrooms? <MaterialCommunityIcons name="human-male-female" size={20} color="black"/>: null}</Text>
+                            <Text>Average Noise Level: {this.currentHub.noise}</Text>
+                        </View>
                     </View>
                     <View style={{
                     flexDirection: 'row',
